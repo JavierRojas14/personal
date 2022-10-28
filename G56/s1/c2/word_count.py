@@ -1,7 +1,5 @@
 import sys
 
-from matplotlib.pyplot import text
-
 ruta_archivo_texto = sys.argv[1]
 
 with open(ruta_archivo_texto, 'r') as file:
