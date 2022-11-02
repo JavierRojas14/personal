@@ -1,13 +1,34 @@
+body {
+    font-family: futura-pt,Avenir,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.5;
+}
+
 .header {
     display: flex;
+}
+
+.top-left-header {
+    display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+    background-color: aqua;
+    flex: 2;
+}
+
+.top-right-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: antiquewhite;
+    flex: 1;
+}
 }
 
 #rotada {
     transform: rotate(90deg);
 }
 
-body {
-    font-family: futura-pt,Avenir,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    line-height: 1.5;
+.button-header {
+    border: none;
+    background-color: white;
 }
