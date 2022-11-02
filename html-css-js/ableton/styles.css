@@ -1,0 +1,13 @@
+.header {
+    display: flex;
+    flex-direction: row;
+}
+
+#rotada {
+    transform: rotate(90deg);
+}
+
+body {
+    font-family: futura-pt,Avenir,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.5;
+}
