@@ -1,34 +1,60 @@
+html {
+    font-size: 10px;
+}
+
 body {
-    font-family: futura-pt,Avenir,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: futura-pt, Avenir,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
     line-height: 1.5;
+    padding: 0px 200px;
 }
 
 .header {
     display: flex;
+
 }
 
 .top-left-header {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    background-color: aqua;
-    flex: 2;
+    justify-content: space-evenly;
+    flex: 1;
 }
 
 .top-right-header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    background-color: antiquewhite;
     flex: 1;
 }
+
+.button-header-inpage {
+    border: none;
+    background-color: white;
+    font-size: 2rem;
+    font-weight: 550;
+}
+
+.button-header-inpage:hover {
+    cursor: pointer;
+}
+
+.button-header-user {
+    border: none;
+    background-color: white;
+    font-size: 2rem;
+    font-weight: bold;
+
+}
+
+.live-button {
+    color: blue;
+    font-size: 2rem;
+}
+
+.more {
+    color: orange;
 }
 
 #rotada {
     transform: rotate(90deg);
-}
-
-.button-header {
-    border: none;
-    background-color: white;
 }
