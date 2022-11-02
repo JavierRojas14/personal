@@ -3,13 +3,17 @@ html {
 }
 
 body {
-    font-family: futura-pt, Avenir,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: system-ui;
     line-height: 1.5;
     padding: 0px 200px;
 }
 
 .header {
     display: flex;
+    border-bottom: 0.5px solid rgba(199, 196, 214, 0.788);
+    border-radius: 2px;
+    padding-bottom: 10px;
+    align-items: center;
 
 }
 
@@ -24,14 +28,16 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    align-items: baseline;
     flex: 1;
 }
 
 .button-header-inpage {
     border: none;
     background-color: white;
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 550;
+    font-family: system-ui;
 }
 
 .button-header-inpage:hover {
@@ -41,8 +47,9 @@ body {
 .button-header-user {
     border: none;
     background-color: white;
-    font-size: 2rem;
+    font-size: 1.4rem;
     font-weight: bold;
+    font-family: system-ui;
 
 }
 
