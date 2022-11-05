@@ -1,0 +1,21 @@
+li {
+    list-style: circle;
+  }
+
+.list {
+list-style: square;
+}
+
+#msg {
+font-family: monospace;
+}
+
+.light-theme {
+    color: white;
+    background: #00FF00;
+}
+
+.dark-theme {
+    color: white;
+    background-color: black;
+}
