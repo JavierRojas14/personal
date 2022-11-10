@@ -23,7 +23,7 @@ if responde_a_estimulos == 'NO':
 
             elif signos_de_vida == 'SI':
                 print('Por favor, reevaluar la espera de la ambulancia')
-            
+
             ha_llegado_la_ambulancia = input('¿LLegó la ambulancia? ').upper()
 
             if ha_llegado_la_ambulancia == 'NO':
