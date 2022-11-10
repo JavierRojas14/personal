@@ -3,8 +3,6 @@ rut_sin_dv = input('Ingresa tu RUT sin puntos ni dígito verificador: ')
 
 serie_inicial = rut_sin_dv[1:-1]
 numero_a_multiplicar = rut_sin_dv[::-1]
-print(serie_inicial)
-print(numero_a_multiplicar)
 
 multiplicaciones = []
 i_serie = 0
@@ -18,5 +16,17 @@ for numero_invertido in numero_a_multiplicar:
     if i_serie > len(serie_inicial) - 1:
         i_serie = 0
 
-print(multiplicaciones)
+suma_multiplicaciones = sum(multiplicaciones)
+modulo_once = suma_multiplicaciones % 11
+dv = 11 - modulo_once
 
+if dv == 10:
+    dv = 'K'
+
+elif dv == 11:
+    dv = 0
+
+else:
+    pass
+
+print(f'Su digito verificador es {dv}')
