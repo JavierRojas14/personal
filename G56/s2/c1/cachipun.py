@@ -43,4 +43,5 @@ if decision_usuario in decisiones:
             print('Hubo un empate!!')
 
 else:
-    print('Arguemento inválido: Debe ser piedra, papel o tijera (indistinto mayusculas y minusculas)')
+    print('Arguemento inválido: Debe ser piedra, '
+          'papel o tijera (indistinto mayusculas y minusculas)')
