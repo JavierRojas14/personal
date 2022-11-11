@@ -58,8 +58,14 @@ body {
     font-size: 2rem;
 }
 
-.more {
+.orange-text {
     color: orange;
+}
+
+.info-section {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 20px;
 }
 
 #rotada {
