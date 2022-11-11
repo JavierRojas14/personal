@@ -1,7 +1,7 @@
 rut_sin_dv = input('Ingresa tu RUT sin puntos ni dígito verificador: ')
 # Ej 12345678
 
-serie_inicial = rut_sin_dv[1:-1]
+serie_inicial = [2, 3, 4, 5, 6, 7]
 numero_a_multiplicar = rut_sin_dv[::-1]
 
 multiplicaciones = []
