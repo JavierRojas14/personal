@@ -196,3 +196,25 @@ Para hacer el link, dentro del tag head, se agrega el tag link!
 </body>
 ```
 
+"Helvetica Neue" ocupa The Odin Project, es bonita esa letra.
+
+Knowledge Check
+
+1. What are the main differences between external, internal, and inline CSS?
+
+Se diferencian en dónde se posiciona el CSS utilizado. En el external se deja en un archivo aparte al HTML. En el internal se deja en el tag head, dentro de un tag style. En el inlin se deja dentro de el opening tag de un elemento
+
+2. What is the syntax for class and ID selectors?
+. y #, respectivamente
+
+3. How would you apply a single rule to two different selectors?
+Con una lista separada por comas
+
+4. Given an element that has an id of title and a class of primary, how would you use both attributes for a single rule?
+Con un selector sin espacio (#title.primary)
+
+5. What does the descendant combinator do?
+Selecciona todos los elementos que si o si contengan al/los selectores padres.
+
+6. Between a rule that uses one class selector and a rule that uses three type selectors, which rule has the higher specificity?
+El class selector!
