@@ -99,31 +99,100 @@ Es buena práctica declarar explicitamente estas propiedades, aunque NO se vaya 
 
 # Especificidad de selectores:
 
-Hay veces donde hay elementos que califican para más de un selector.
+Hay veces donde hay elementos que entran en conflictos unos con otros. En este caso, para decidir el empate, se toman en cuenta los siguientes factores:
 
-Ej:
+- Especificidad: Mayor especificidad, mayor prioridad en la elección. Selectores ID > Selectores Clase > Selectores Tipo
+
+- Cantidad: Si dos selectores tienen la misma específicidad, ganara el que tenga más cantidad de selectores.
 
 ```
+<!-- index.html -->
+
+<div class="main">
+  <div class="list subsection"></div>
+</div>
+
+/* rule 1 */
 .subsection {
   color: blue;
 }
 
+/* rule 2 */
 .main .list {
   color: red;
 }
 ```
 
-Si un elemento 
+En este caso, para el elemento div anidado, existen dos selectores que le hacen referencia. Ambos selectores tienen la misma especificidad, por lo tanto, es imposible decidir sólo con la regla de especificdad. Sin embargo, el segundo selector tiene una mayor cantidad de selectores de tipo clase, por lo que se utiliza este para dar el estilo al elemento div. 
+
+```
+#subsection .list {
+  background-color: yellow;
+  color: blue;
+}
+
+/* rule 2 */
+#subsection .main .list {
+  color: red;
+}
+
+```
+
+En este caso, se toma la segunda regla PARA LA PROPIEDAD COLOR SOLAMENTE, ya que tiene una mayor cantidad de selectores de clases. Ya que CSS es en cascada, de la primera propiedad se aplica background-color: yellow!.
+
+Los simbolos (+, " ", >, ~) no agregan nada a la especificidad.
+
+.class.lel = .class > .lel = .class .lel ...
+
+- Herencia:
+
+Hay propiedades que son heredadas por los elementos descendientes de un pariente. Por ejemplo, las propiedades de tipografía son heredadas por los hijos (color, font-size, font-family, etc)
+
+Ahora, aplicar una propiedad directamente a un hijo SIEMPRE vencera a una propiedad heredada!.
+
+- Cascada:
+
+Si todo lo anterior fue considerado, y aun así hay conflictos, entonces se quedará la última propiedad aplicada.
 
 
 # Linkear un CSS a un HTML
 
-Se hace en el Tag <heas></head>, con el tag <link>.
+Hay 3 formas de hacerlo!
+
+- **Método Externo:** Se crea un archivo solamente para los CSS, y eso se linkea al archivo HTML.
+
+Para hacer el link, dentro del tag head, se agrega el tag link!
 
 ```
 <head>
   <link href="styles.css" rel="stylesheet">
 
 </head>
+```
+
+- **Método Interno:** En este método, se agrega un tag <style></style> dentro de <head></head>. Dentro del tag style se agrega todo el CSS. Esto permite estilizar una única página de HTML!
+
+```
+<head>
+  <style>
+    div {
+      color: white;
+      background-color: black;
+    }
+
+    p {
+      color: red;
+    }
+  </style>
+</head>
+<body>...</body>
+```
+
+- **Método Inline:** Esto permite agregar CSS a un único elemento HTML. No se recomienda para nada. Este método tiene prioridad por sobre los otros métodos de CSS.
+
+```
+<body>
+  <div style="color: white; background-color: black;">...</div>
+</body>
 ```
 
