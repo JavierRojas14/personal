@@ -5,4 +5,13 @@ def factorial(numero_a_calcular):
     
     return resultado
 
+def productoria(lista_numeros):
+    resultado = 1
+    for numero in lista_numeros:
+        resultado *= numero
+    
+    return resultado
+
+
 print(factorial(5))
+print(productoria([3, 6, 4, 2, 8]))
