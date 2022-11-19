@@ -11,12 +11,14 @@ opciones = {'basicas': [1,2,3],
 
 def choose_q(dificultad):
     #escoger preguntas por dificultad
-    preguntas = 
+    preguntas = preguntas[dificultad]
+    print(preguntas)
     
     # usar opciones desde ambiente global
-    global 
+    global opciones
     # escoger una pregunta
-    n_elegido = 
+    
+    n_elegido = opciones[dificultad]
     # eliminarla del ambiente global para no escogerla de nuevo
     
     
