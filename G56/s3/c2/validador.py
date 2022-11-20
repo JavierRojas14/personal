@@ -4,13 +4,11 @@ def validate(opciones, eleccion):
     ##########################################################################
     while True:
         if eleccion not in opciones:
-            print(f'Su elección es inválida, por favor ingrese un valor que esté en {opciones}')
+            print(f'Opción no válida, ingrese una de las opciones válidas: ')
             eleccion = input('Ingresa una Opción: ').lower()
 
         elif eleccion in opciones:
             break
-
-    print(f'Ingresó correctamente la elección: {eleccion}')
     ##########################################################################
     return eleccion
 
