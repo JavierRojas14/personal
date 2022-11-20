@@ -37,6 +37,7 @@ if opcion == '0':
     time.sleep(2)
     os.system(op_sys)
     # finalizar programa
+    exit()
     
 
 # Funcionamiento de preguntas
@@ -69,7 +70,7 @@ while correcto and n_pregunta < 3*p_level:
             print('Muy bien sigue así!')
             continuar = input('Desea continuar? [y/n]: ').lower()
             #9. Validar si es que se responde y o n
-            continuar = 
+            continuar = validate(['y', 'n'], continuar)
             os.system(op_sys)
         elif correcto and n_pregunta == 3*p_level:
             print(f'Felicitaciones, Has respondido {3*p_level} preguntas correctas. \n Has ganado la Trivia \n Gracias por Jugar, hasta luego!!!')
