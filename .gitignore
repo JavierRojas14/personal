@@ -2,3 +2,6 @@ G56/s2/c2/.vscode/settings.json
 power-bi/data.csv
 G56/s3/c1/.vscode/settings.json
 G56/s3/c2/Desafío evaluado - Quiz app.pdf
+*.pyc
+*.pdf
+*settings.json
