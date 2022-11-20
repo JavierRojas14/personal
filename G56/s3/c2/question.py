@@ -11,20 +11,24 @@ opciones = {'basicas': [1,2,3],
 
 def choose_q(dificultad):
     #escoger preguntas por dificultad
-    preguntas = preguntas[dificultad]
+    pregunta_escogida = preguntas[dificultad]
     print(preguntas)
     
     # usar opciones desde ambiente global
     global opciones
     # escoger una pregunta
-    
-    n_elegido = opciones[dificultad]
+    opciones_disponibles = opciones[dificultad]
+    n_elegido = random.randrange((len(opciones_disponibles)))
+    print(n_elegido)
     # eliminarla del ambiente global para no escogerla de nuevo
+    opciones[dificultad].pop(n_elegido)
+    print(opciones)
     
     
     # escoger enunciado y alternativas mezcladas
-    pregunta = 
-    alternativas = 
+    llave_pregunta = preguntas.keys()[n_elegido]
+    pregunta = preguntas[llave_pregunta]
+    alternativas = shuffle_alt(pregunta['alternativas'])
     
     
     return pregunta['enunciado'], alternativas
