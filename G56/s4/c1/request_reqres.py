@@ -22,3 +22,13 @@ response_2 = requests.request('GET', url=url_2)
 users_data = [response_1, response_2]
 for usuario in users_data:
     print(json.dumps(json.loads(usuario.text), indent=1))
+
+###############################################################################
+
+nuevo_usuario = {
+    'user': 'Ignacio',
+    'job': 'Profesor'
+}
+
+created_user = requests.request('POST', url=url, params=nuevo_usuario)
+print(created_user, created_user.text)
