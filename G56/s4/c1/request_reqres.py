@@ -20,5 +20,5 @@ response_1 = requests.request('GET', url=url_1)
 response_2 = requests.request('GET', url=url_2)
 
 users_data = [response_1, response_2]
-print(json.dumps(json.loads(response_1.text), indent=1))
-print(json.dumps(json.loads(response_2.text), indent=1))
+for usuario in users_data:
+    print(json.dumps(json.loads(usuario.text), indent=1))
