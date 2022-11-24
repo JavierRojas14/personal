@@ -32,3 +32,20 @@ nuevo_usuario = {
 
 created_user = requests.request('POST', url=url, params=nuevo_usuario)
 print(created_user, created_user.text)
+
+###########################################################################
+'''
+Del primer print se puede ver que no existe ningún usuario llamado morpheus en la
+base de datos. Por lo tanto, se actualizará cualquier usuario que si exista. En este caso
+un usuario con id = 2.
+'''
+
+url_actualizar = 'https://reqres.in/api/users/2'
+
+actualizar = {
+    "name": "morpheus",
+    "residence": "zion"
+}
+
+updated_user = requests.request('PUT', url=url_actualizar, data=actualizar)
+print(updated_user, updated_user.text)
