@@ -49,3 +49,15 @@ actualizar = {
 
 updated_user = requests.request('PUT', url=url_actualizar, data=actualizar)
 print(updated_user, updated_user.text)
+
+
+#############################################################################
+'''
+Del primer print se puede ver que el usuario "Tracey" tiene un id = 6. Por lo tanto,
+hay que seleccionar este id en la url.
+'''
+
+url_a_borrar = 'https://reqres.in/api/users/6'
+
+delete_user = requests.request('DELETE', url=url_a_borrar)
+print(delete_user, delete_user.text)
