@@ -1,6 +1,34 @@
 import requests
 import json
 
+
+def crear_website_pajaros(lista_pajaros):
+
+    li_pajaros = []
+    for pajaro in lista_pajaros:
+        imagen = pajaro[0]
+        nombre_espanol = pajaro[1]
+        nombres_ingles = pajaro[2]
+        objeto_li = f'  <li><img src="{imagen}"/> {nombre_espanol} - {nombres_ingles}</li>'
+        li_pajaros.append(objeto_li)
+
+    li_pajaros_str = '\n'.join(li_pajaros)
+
+    documento = f'''
+<html>
+<head>
+</head>
+<body>
+<ul>
+{li_pajaros_str}
+</ul>
+</body>
+</head>
+</html>
+'''
+    return documento
+
+
 url = 'https://aves.ninjas.cl/api/birds'
 
 response = requests.request('GET', url=url)
@@ -26,4 +54,5 @@ for pajaro in objeto_respuesta:
     info_de_un_pajaro = [imagen_pajaro, nombre_espanol, nombre_ingles]
     info_pajaros.append(info_de_un_pajaro)
 
-print(info_pajaros)
+pagina_web = crear_website_pajaros(info_pajaros)
+print(pagina_web)
