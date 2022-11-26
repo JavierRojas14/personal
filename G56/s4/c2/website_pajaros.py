@@ -55,4 +55,8 @@ for pajaro in objeto_respuesta:
     info_pajaros.append(info_de_un_pajaro)
 
 pagina_web = crear_website_pajaros(info_pajaros)
-print(pagina_web)
+
+
+with open('index.html', 'w') as file:
+    file.write(pagina_web)
+
