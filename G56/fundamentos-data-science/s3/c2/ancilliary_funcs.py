@@ -75,7 +75,8 @@ def obtener_descripciones_variables(df_a_describir):
     print(descripcion_variables_continuas)
 
     variables_continuas = descripcion_variables_continuas.columns
-    variables_discretas = set(df_a_describir.columns) - set(variables_continuas)
+    variables_discretas = set(df_a_describir.columns) - \
+        set(variables_continuas)
 
     for variable_discreta in variables_discretas:
         print(df_a_describir[variable_discreta].value_counts())
