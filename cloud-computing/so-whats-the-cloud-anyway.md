@@ -14,16 +14,34 @@ El Cloud Computing es una tecnologia de inteligencia que tiene estas 5 caracteri
 
 La infraestructura computacional, son los recursos que se utilizan para generar programas.
 
-# Tipos de Computacion
+# Arquitectura en la nube vs arquitectura tradicional
 
-## Fisica
+## Colocation
 
-Son los servers y toda la cuestion, que son de forma fisica
+Se rentaban espacios fisicos para poner recursos computacionales
 
-## Virtual
+## Virtualizacion
 
-Idk
+Eran similares a los de colocations, sin embargo, eran virtualizados. Esto significa que el usuario podia manejar sus recursos y administrarlos
 
-## Cloud
+## Arquitectura basada en contenedores
 
-Es un servicio que puede ser contratado desde cualquier parte, y que permite brindar infraestructura y servicios computacionales.
+Es automatico y elastico segun la demanda de servicios!.
+
+La arquitectura de Google utiliza el 2% de la electricidad mundial. Estan certificados para el manejo de recursos.
+
+# IaaS, PaaS y SaaS
+
+IaaS: Infrastructure as a Service. Brindan los recursos crudos (almacenamiento, poder de computacion, acceso a la red, etc). Son similares a los centros fisicos de colocation. Se paga por lo que se aloca antes de utilizarlos.
+
+PaaS: Platfrom as a Service. Son las librerias necesarias para que todo funcione en el Google. Se paga por lo que se utiliza.
+
+Lo de Google son self-managed services, lo que permite que sean bastante rapidos en brindar nuevos recursos/servicios.
+
+SaaS: Son las aplicaciones brindadas (Ej: Google Drive, Docs, etc)
+
+# Infraestructura de la Nube
+
+Primero esta la red y su seguridad. Es responsable por el 40% del trafico mundial en la red
+Segundo esta el poder computacional (Google Run, Google Functions, Google Qubernet, otros) y de almacenamiento (Google SQL, Google Table, otros)
+Tercero esta todo el Big Data y Machine Learning
