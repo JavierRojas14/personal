@@ -82,3 +82,8 @@ def analizar_valores_faltantes(variables_a_analizar):
     display(faltantes_resumen)
 
     msno.matrix(variables_a_analizar)
+
+def calcular_perdida_de_datos(df_completa):
+    cantidad_valores_originales = len(df_completa)
+    cantidad_valores_droppeados = len(df_completa.dropna())
+    return round(1 - (cantidad_valores_droppeados / cantidad_valores_originales), 2)
