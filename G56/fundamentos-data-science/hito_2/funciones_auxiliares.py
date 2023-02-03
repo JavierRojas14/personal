@@ -37,9 +37,16 @@ def separar_df_a_numericas_categoricas(df):
 
 
 def graficar_variable_numerica(serie_numerica, nombre_grafico):
-    sns.histplot(serie_numerica)
-    plt.axvline(serie_numerica.mean(), color='tomato')
+    fig, axis = plt.subplots(1, 2)
+    sns.histplot(serie_numerica, ax=axis[0])
+    axis[0].axvline(serie_numerica.mean(), color='tomato')
+
+    sns.boxplot(serie_numerica, ax=axis[1])
+
     plt.title(nombre_grafico)
+    plt.show()
+
+    
     plt.show()
 
 def analizar_variables_numericas(df_numericas):
