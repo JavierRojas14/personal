@@ -38,7 +38,7 @@ def separar_df_a_numericas_categoricas(df):
     return numericas, categoricas
 
 
-def graficar_variable_numerica(serie_numerica, nombre_grafico):
+def graficar_distribucion_variable_numerica(serie_numerica, nombre_grafico):
     fig, axis = plt.subplots(1, 2)
     sns.histplot(serie_numerica, ax=axis[0])
     axis[0].axvline(serie_numerica.mean(), color='tomato')
@@ -48,19 +48,21 @@ def graficar_variable_numerica(serie_numerica, nombre_grafico):
     plt.show()
 
 
-def analizar_variables_numericas(df_numericas):
+def analizar_distribucion_variables_numericas(df_numericas):
     display(df_numericas.describe())
 
     for columna_numerica, serie_numerica in df_numericas.items():
-        graficar_variable_numerica(serie_numerica, columna_numerica)
+        graficar_distribucion_variable_numerica(
+            serie_numerica, columna_numerica)
 
 
-def analizar_variables_categoricas(df_categoricas):
+def analizar_distribucion_variables_categoricas(df_categoricas):
     for columna_categorica, serie_categorica in df_categoricas.items():
-        graficar_variable_categorica(serie_categorica, columna_categorica)
+        graficar_distribucion_variable_categorica(
+            serie_categorica, columna_categorica)
 
 
-def graficar_variable_categorica(serie_categorica, nombre_grafico):
+def graficar_distribucion_variable_categorica(serie_categorica, nombre_grafico):
     serie_conteo = serie_categorica.value_counts()
     print(nombre_grafico)
     print(serie_conteo)
