@@ -1,6 +1,21 @@
-import random
+import warnings
+
+import pandas as pd
 import numpy as np
+
 import matplotlib.pyplot as plt
+import seaborn as sns
+
+import missingno as msno
+
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import roc_curve, roc_auc_score
 
 DICCIONARIO_REGIONES = {1: 'EastEurope',
                         2: 'LatAm',
@@ -60,6 +75,24 @@ def obtener_submuestra(df):
 
     return df_cincuenta_columnas_a_utilizar
 
+def analizar_variable_discreta(serie_variable, mostrar_faltantes=False):
+    frecuencias = serie_variable.value_counts()
+    porcentajes = serie_variable.value_counts('%')
+    total = pd.DataFrame({'Frecuencia': frecuencias,
+                         'Porcentaje': porcentajes}, index=frecuencias.index)
+    display(total)
+
+    sns.histplot(serie_variable)
+    plt.show()
+
+    if mostrar_faltantes:
+        msno.matrix(pd.DataFrame(serie_variable))
+        plt.show()
+
+def analizar_variable_continua(serie_variable, titulo_grafico):
+    sns.histplot(serie_variable)
+    plt.title(titulo_grafico)
+    plt.show()
 
 def obtener_descripciones_variables(df_a_describir):
     """Funcion para mostrar los descriptores estadisticos de tendencia central de las variables
@@ -77,11 +110,13 @@ def obtener_descripciones_variables(df_a_describir):
     variables_continuas = descripcion_variables_continuas.columns
     variables_discretas = set(df_a_describir.columns) - \
         set(variables_continuas)
+    
+    for variable_continua in variables_continuas:
+        analizar_variable_continua(df_a_describir[variable_continua], variable_continua)
 
     for variable_discreta in variables_discretas:
-        print(f'{variable_discreta:<30}')
-        print(df_a_describir[variable_discreta].value_counts())
-        print()
+        print(f'> Var: {variable_discreta}')
+        analizar_variable_discreta(df_a_describir[variable_discreta], False)
 
 
 def calcular_observaciones_perdidas(dataframe, var, print_list=False):
