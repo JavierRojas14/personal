@@ -68,3 +68,10 @@ def graficar_variable_categorica(serie_categorica, nombre_grafico):
     sns.countplot(y=serie_categorica, order=serie_conteo.index)
     plt.title(nombre_grafico)
     plt.show()
+
+
+def analizar_valores_faltantes(variables_a_analizar):
+    valores_faltantes = variables_a_analizar.isnull().sum()
+    print(valores_faltantes)
+
+    msno.matrix(variables_a_analizar)
