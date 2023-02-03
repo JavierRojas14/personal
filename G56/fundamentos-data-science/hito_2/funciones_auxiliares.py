@@ -74,6 +74,11 @@ def graficar_distribucion_variable_categorica(serie_categorica, nombre_grafico):
 
 def analizar_valores_faltantes(variables_a_analizar):
     valores_faltantes = variables_a_analizar.isnull().sum()
-    print(valores_faltantes)
+    porcentaje_faltantes = valores_faltantes * 100 / len(variables_a_analizar)
+
+    faltantes_resumen = pd.DataFrame({'columna': variables_a_analizar.columns,
+                                      'cantidad_na': valores_faltantes,
+                                      'porcentaje_na': porcentaje_faltantes})
+    display(faltantes_resumen)
 
     msno.matrix(variables_a_analizar)
