@@ -17,6 +17,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import roc_curve, roc_auc_score
 
+
 def analizar_vector_objetivo_discreto(serie_variable):
     frecuencias = serie_variable.value_counts()
     porcentajes = serie_variable.value_counts('%')
@@ -30,6 +31,7 @@ def analizar_vector_objetivo_discreto(serie_variable):
     msno.matrix(pd.DataFrame(serie_variable))
     plt.show()
 
+
 def separar_df_a_numericas_categoricas(df):
     numericas = df.select_dtypes('number')
     categoricas = df.select_dtypes('object')
@@ -40,14 +42,11 @@ def graficar_variable_numerica(serie_numerica, nombre_grafico):
     fig, axis = plt.subplots(1, 2)
     sns.histplot(serie_numerica, ax=axis[0])
     axis[0].axvline(serie_numerica.mean(), color='tomato')
-
     sns.boxplot(serie_numerica, ax=axis[1])
 
     plt.title(nombre_grafico)
     plt.show()
 
-    
-    plt.show()
 
 def analizar_variables_numericas(df_numericas):
     display(df_numericas.describe())
@@ -55,4 +54,17 @@ def analizar_variables_numericas(df_numericas):
     for columna_numerica, serie_numerica in df_numericas.items():
         graficar_variable_numerica(serie_numerica, columna_numerica)
 
-    
+
+def analizar_variables_categoricas(df_categoricas):
+    for columna_categorica, serie_categorica in df_categoricas.items():
+        graficar_variable_categorica(serie_categorica, columna_categorica)
+
+
+def graficar_variable_categorica(serie_categorica, nombre_grafico):
+    serie_conteo = serie_categorica.value_counts()
+    print(nombre_grafico)
+    print(serie_conteo)
+
+    sns.countplot(y=serie_categorica, order=serie_conteo.index)
+    plt.title(nombre_grafico)
+    plt.show()
