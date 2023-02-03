@@ -1,21 +1,4 @@
-import warnings
 
-import pandas as pd
-import numpy as np
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-import missingno as msno
-
-import statsmodels.api as sm
-import statsmodels.formula.api as smf
-
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import roc_curve, roc_auc_score
 
 DICCIONARIO_REGIONES = {1: 'EastEurope',
                         2: 'LatAm',
@@ -75,19 +58,7 @@ def obtener_submuestra(df):
 
     return df_cincuenta_columnas_a_utilizar
 
-def analizar_variable_discreta(serie_variable, mostrar_faltantes=False):
-    frecuencias = serie_variable.value_counts()
-    porcentajes = serie_variable.value_counts('%')
-    total = pd.DataFrame({'Frecuencia': frecuencias,
-                         'Porcentaje': porcentajes}, index=frecuencias.index)
-    display(total)
 
-    sns.histplot(serie_variable)
-    plt.show()
-
-    if mostrar_faltantes:
-        msno.matrix(pd.DataFrame(serie_variable))
-        plt.show()
 
 def analizar_variable_continua(serie_variable, titulo_grafico):
     sns.histplot(serie_variable)

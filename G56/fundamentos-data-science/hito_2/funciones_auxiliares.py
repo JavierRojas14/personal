@@ -34,3 +34,18 @@ def separar_df_a_numericas_categoricas(df):
     numericas = df.select_dtypes('number')
     categoricas = df.select_dtypes('object')
     return numericas, categoricas
+
+
+def graficar_variable_numerica(serie_numerica, nombre_grafico):
+    sns.histplot(serie_numerica)
+    plt.axvline(serie_numerica.mean(), color='tomato')
+    plt.title(nombre_grafico)
+    plt.show()
+
+def analizar_variables_numericas(df_numericas):
+    display(df_numericas.describe())
+
+    for columna_numerica, serie_numerica in df_numericas.items():
+        graficar_variable_numerica(serie_numerica, columna_numerica)
+
+    
