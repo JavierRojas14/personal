@@ -171,7 +171,7 @@ def recodificar_enunciado_uno(df):
 def codificar_a_one_hot(df, nombre_columna, serie_columna):
     tmp = df.copy()
 
-    tmp = tmp.join(pd.get_dummies(serie_columna, drop_first=True))
+    tmp = tmp.join(pd.get_dummies(serie_columna, drop_first=True), rsuffix='_dummy')
     tmp = tmp.drop(columns=nombre_columna)
 
     return tmp
@@ -262,5 +262,13 @@ CAMBIO_HITO_2 = {'school': REEMPLAZO_SCHOOL,
                  'higher': REEMPLAZO_HIGHER,
                  'internet': REEMPLAZO_INTERNET,
                  'romantic': REEMPLAZO_ROMANTIC}
+
+def recodificar_vars_binarias_enunciado_2(df):
+    tmp = df.copy()
+
+    for variable, dict_reemplazo in CAMBIO_HITO_2.items():
+        tmp[variable] = recodificar_variable(tmp[variable], dict_reemplazo)
+    
+    return tmp
 
 
