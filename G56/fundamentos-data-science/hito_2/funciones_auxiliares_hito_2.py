@@ -171,7 +171,7 @@ def recodificar_enunciado_uno(df):
 def codificar_a_one_hot(df, nombre_columna, serie_columna):
     tmp = df.copy()
 
-    tmp = tmp.join(pd.get_dummies(serie_columna, drop_first=True), rsuffix='_dummy')
+    tmp = tmp.join(pd.get_dummies(serie_columna, drop_first=True), rsuffix=f'_{nombre_columna}')
     tmp = tmp.drop(columns=nombre_columna)
 
     return tmp
