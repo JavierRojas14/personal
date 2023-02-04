@@ -200,7 +200,7 @@ def preprocesar_y_recodificar_enunciado_uno(df):
 ############################ Enunciado 2
 
 def corregir_var_numerica_en_string(serie_semi_numerica):
-    return serie_semi_numerica.str.replace('"', '').astype('Int32')
+    return serie_semi_numerica.str.replace('"', '').astype(float)
 
 def cambiar_vars_numericas_en_string(df):
     tmp = df.copy()
