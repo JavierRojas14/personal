@@ -177,7 +177,7 @@ def codificar_a_one_hot(df, nombre_columna, serie_columna):
     return tmp
 
 
-def one_hot_todas_las_categoricas(df):
+def one_hot_vars_categoricas(df):
     tmp = df.copy()
 
     _, categoricas = separar_df_a_numericas_categoricas(df)
@@ -185,3 +185,15 @@ def one_hot_todas_las_categoricas(df):
         tmp = codificar_a_one_hot(tmp, nombre_columna, serie_columna)
 
     return tmp
+
+def preprocesar_y_recodificar_enunciado_uno(df):
+    tmp = df.copy()
+
+    tmp = tmp.replace('?', np.nan)
+    tmp = tmp.dropna()
+    tmp = recodificar_enunciado_uno(tmp)
+    tmp = one_hot_vars_categoricas(tmp)
+    tmp.columns = tmp.columns.str.replace('-', '_')
+
+    return tmp
+
