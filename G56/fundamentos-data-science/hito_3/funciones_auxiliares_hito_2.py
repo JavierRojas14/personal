@@ -171,13 +171,13 @@ def recodificar_enunciado_uno(df):
 def codificar_a_one_hot(df, nombre_columna, serie_columna):
     tmp = df.copy()
 
-    tmp = tmp.join(pd.get_dummies(serie_columna, drop_first=True))
+    tmp = tmp.join(pd.get_dummies(serie_columna, drop_first=True), rsuffix=f'_{nombre_columna}')
     tmp = tmp.drop(columns=nombre_columna)
 
     return tmp
 
 
-def one_hot_vars_categoricas(df):
+def unir_codificacion_one_hot_vars_categoricas(df):
     tmp = df.copy()
 
     _, categoricas = separar_df_a_numericas_categoricas(df)
@@ -192,8 +192,88 @@ def preprocesar_y_recodificar_enunciado_uno(df):
     tmp = tmp.replace('?', np.nan)
     tmp = tmp.dropna()
     tmp = recodificar_enunciado_uno(tmp)
-    tmp = one_hot_vars_categoricas(tmp)
+    tmp = unir_codificacion_one_hot_vars_categoricas(tmp)
     tmp.columns = tmp.columns.str.replace('-', '_')
 
     return tmp
+
+############################ Enunciado 2
+
+def corregir_var_numerica_con_comillas(serie_semi_numerica):
+    return serie_semi_numerica.str.replace('"', '').astype(float)
+
+def corregir_variables_numericas(df):
+    tmp = df.copy()
+
+    vars_erroneas = ['age', 'goout', 'health']
+    for variable_erronea in vars_erroneas:
+        tmp[variable_erronea] = corregir_var_numerica_con_comillas(tmp[variable_erronea])
+
+    variables_numericas = ['Dalc',
+                       'Fedu',
+                       'G1',
+                       'G2',
+                       'G3',
+                       'Medu',
+                       'Walc',
+                       'absences',
+                       'age',
+                       'failures',
+                       'famrel',
+                       'freetime',
+                       'goout',
+                       'health',
+                       'studytime',
+                       'traveltime']
+
+    tmp[variables_numericas] = tmp[variables_numericas].astype(float)
+
+    return tmp
+
+REEMPLAZO_SCHOOL = {0: ['GP'], 1: ['MS']}
+REEMPLAZO_SEX = {0: ['F'], 1: ['M']}
+REEMPLAZO_ADDRESS = {0: ['U'], 1: ['R']}
+REEMPLAZO_FAMSIZE = {0: ['GT3'], 1: ['LE3']}
+REEMPLAZO_PSTATUS = {0: ['T'], 1: ['A']}
+REEMPLAZO_SCHOOLSUP = {0: ['no'], 1: ['yes']}
+REEMPLAZO_FAMSUP = {0: ['yes'], 1: ['no']}
+REEMPLAZO_PAID = {0: ['no'], 1: ['yes']}
+REEMPLAZO_ACTIVITIES = {0: ['yes'], 1: ['no']}
+REEMPLAZO_NURSERY = {0: ['yes'], 1: ['no']}
+REEMPLAZO_HIGHER = {0: ['yes'], 1: ['no']}
+REEMPLAZO_INTERNET = {0: ['yes'], 1: ['no']}
+REEMPLAZO_ROMANTIC = {0: ['no'], 1: ['yes']}
+
+CAMBIO_HITO_2 = {'school': REEMPLAZO_SCHOOL,
+                 'sex': REEMPLAZO_SEX,
+                 'address': REEMPLAZO_ADDRESS,
+                 'famsize': REEMPLAZO_FAMSIZE,
+                 'Pstatus': REEMPLAZO_PSTATUS,
+                 'schoolsup': REEMPLAZO_SCHOOLSUP,
+                 'famsup': REEMPLAZO_FAMSUP,
+                 'paid': REEMPLAZO_PAID,
+                 'activities': REEMPLAZO_ACTIVITIES,
+                 'nursery': REEMPLAZO_NURSERY,
+                 'higher': REEMPLAZO_HIGHER,
+                 'internet': REEMPLAZO_INTERNET,
+                 'romantic': REEMPLAZO_ROMANTIC}
+
+def cambiar_vars_binarias_enunciado_dos(df):
+    tmp = df.copy()
+
+    for variable, dict_reemplazo in CAMBIO_HITO_2.items():
+        tmp[variable] = recodificar_variable(tmp[variable], dict_reemplazo)
+    
+    return tmp
+
+def preprocesar_y_recodificar_enunciado_dos(df):
+    tmp = df.copy()
+
+    tmp = tmp.replace(['nulidade', 'sem validade', 'zero'], np.nan)
+    tmp = corregir_variables_numericas(tmp)
+    tmp = cambiar_vars_binarias_enunciado_dos(tmp)
+    tmp = unir_codificacion_one_hot_vars_categoricas(tmp)
+
+    return tmp
+    
 

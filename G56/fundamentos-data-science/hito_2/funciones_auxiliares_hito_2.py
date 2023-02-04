@@ -177,7 +177,7 @@ def codificar_a_one_hot(df, nombre_columna, serie_columna):
     return tmp
 
 
-def one_hot_vars_categoricas(df):
+def unir_codificacion_one_hot_vars_categoricas(df):
     tmp = df.copy()
 
     _, categoricas = separar_df_a_numericas_categoricas(df)
@@ -192,7 +192,7 @@ def preprocesar_y_recodificar_enunciado_uno(df):
     tmp = tmp.replace('?', np.nan)
     tmp = tmp.dropna()
     tmp = recodificar_enunciado_uno(tmp)
-    tmp = one_hot_vars_categoricas(tmp)
+    tmp = unir_codificacion_one_hot_vars_categoricas(tmp)
     tmp.columns = tmp.columns.str.replace('-', '_')
 
     return tmp
@@ -202,8 +202,12 @@ def preprocesar_y_recodificar_enunciado_uno(df):
 def corregir_var_numerica_con_comillas(serie_semi_numerica):
     return serie_semi_numerica.str.replace('"', '').astype(float)
 
-def reasginar_variables_numericas(df):
+def corregir_variables_numericas(df):
     tmp = df.copy()
+
+    vars_erroneas = ['age', 'goout', 'health']
+    for variable_erronea in vars_erroneas:
+        tmp[variable_erronea] = corregir_var_numerica_con_comillas(tmp[variable_erronea])
 
     variables_numericas = ['Dalc',
                        'Fedu',
@@ -223,10 +227,6 @@ def reasginar_variables_numericas(df):
                        'traveltime']
 
     tmp[variables_numericas] = tmp[variables_numericas].astype(float)
-
-    vars_erroneas = ['age', 'goout', 'health']
-    for variable_erronea in vars_erroneas:
-        tmp[variable_erronea] = corregir_var_numerica_con_comillas(tmp[variable_erronea])
 
     return tmp
 
@@ -258,7 +258,7 @@ CAMBIO_HITO_2 = {'school': REEMPLAZO_SCHOOL,
                  'internet': REEMPLAZO_INTERNET,
                  'romantic': REEMPLAZO_ROMANTIC}
 
-def recodificar_vars_binarias_enunciado_2(df):
+def cambiar_vars_binarias_enunciado_dos(df):
     tmp = df.copy()
 
     for variable, dict_reemplazo in CAMBIO_HITO_2.items():
@@ -270,10 +270,9 @@ def preprocesar_y_recodificar_enunciado_dos(df):
     tmp = df.copy()
 
     tmp = tmp.replace(['nulidade', 'sem validade', 'zero'], np.nan)
-    tmp = cambiar_vars_numericas_en_string(tmp)
-    tmp = reasginar_variables_numericas(tmp)
-    tmp = recodificar_vars_binarias_enunciado_2(tmp)
-    tmp = one_hot_vars_categoricas(tmp)
+    tmp = corregir_variables_numericas(tmp)
+    tmp = cambiar_vars_binarias_enunciado_dos(tmp)
+    tmp = unir_codificacion_one_hot_vars_categoricas(tmp)
 
     return tmp
     
