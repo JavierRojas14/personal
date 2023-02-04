@@ -199,17 +199,8 @@ def preprocesar_y_recodificar_enunciado_uno(df):
 
 ############################ Enunciado 2
 
-def corregir_var_numerica_en_string(serie_semi_numerica):
+def corregir_var_numerica_con_comillas(serie_semi_numerica):
     return serie_semi_numerica.str.replace('"', '').astype(float)
-
-def cambiar_vars_numericas_en_string(df):
-    tmp = df.copy()
-
-    vars_erroneas = ['age', 'goout', 'health']
-    for variable_erronea in vars_erroneas:
-        tmp[variable_erronea] = corregir_var_numerica_en_string(tmp[variable_erronea])
-    
-    return tmp
 
 def reasginar_variables_numericas(df):
     tmp = df.copy()
@@ -232,6 +223,10 @@ def reasginar_variables_numericas(df):
                        'traveltime']
 
     tmp[variables_numericas] = tmp[variables_numericas].astype(float)
+
+    vars_erroneas = ['age', 'goout', 'health']
+    for variable_erronea in vars_erroneas:
+        tmp[variable_erronea] = corregir_var_numerica_con_comillas(tmp[variable_erronea])
 
     return tmp
 
