@@ -271,4 +271,15 @@ def recodificar_vars_binarias_enunciado_2(df):
     
     return tmp
 
+def preprocesar_y_recodificar_enunciado_dos(df):
+    tmp = df.copy()
+
+    tmp = tmp.replace(['nulidade', 'sem validade', 'zero'], np.nan)
+    tmp = cambiar_vars_numericas_en_string(tmp)
+    tmp = reasginar_variables_numericas(tmp)
+    tmp = recodificar_vars_binarias_enunciado_2(tmp)
+    tmp = one_hot_vars_categoricas(tmp)
+
+    return tmp
+    
 
