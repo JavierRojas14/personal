@@ -73,11 +73,6 @@ def analizar_dist_todas_las_variables_categoricas(df_categoricas):
         graficar_distribucion_variable_categorica(
             serie_categorica, columna_categorica)
 
-def analizar_correlacion_todas_las_variables(df_variables):
-    corr = df_variables.corr()
-    sns.heatmap(corr, cmap='Blues', annot=True)
-    plt.show()
-
 
 def analizar_valores_faltantes(variables_a_analizar):
     valores_faltantes = variables_a_analizar.isnull().sum()
@@ -90,6 +85,12 @@ def analizar_valores_faltantes(variables_a_analizar):
 
     msno.matrix(variables_a_analizar)
 
+def analizar_variables_indpendientes(df_independientes):
+    numericas, categoricas =  separar_df_a_numericas_categoricas(df_independientes)
+    analizar_distr_todas_las_variables_numericas(numericas)
+    analizar_dist_todas_las_variables_categoricas(categoricas)
+    analizar_valores_faltantes(df_independientes)
+
 
 def mostrar_perdida_de_datos(df_completa):
     cantidad_valores_originales = len(df_completa)
@@ -99,3 +100,9 @@ def mostrar_perdida_de_datos(df_completa):
 
     print(f'Al droppear todos los valores faltantes en la DataFrame se pierde el {cambio}% '
           f'de los datos totales')
+
+
+def analizar_correlacion_todas_las_variables(df_variables):
+    corr = df_variables.corr()
+    sns.heatmap(corr, cmap='Blues', annot=True)
+    plt.show()
