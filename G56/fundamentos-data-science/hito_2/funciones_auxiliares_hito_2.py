@@ -211,4 +211,28 @@ def cambiar_vars_numericas_en_string(df):
     
     return tmp
 
+def reasginar_variables_numericas(df):
+    tmp = df.copy()
+
+    variables_numericas = ['Dalc',
+                       'Fedu',
+                       'G1',
+                       'G2',
+                       'G3',
+                       'Medu',
+                       'Walc',
+                       'absences',
+                       'age',
+                       'failures',
+                       'famrel',
+                       'freetime',
+                       'goout',
+                       'health',
+                       'studytime',
+                       'traveltime']
+
+    tmp[variables_numericas] = tmp[variables_numericas].astype(float)
+
+    return tmp
+
 
