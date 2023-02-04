@@ -235,4 +235,32 @@ def reasginar_variables_numericas(df):
 
     return tmp
 
+REEMPLAZO_SCHOOL = {0: ['GP'], 1: ['MS']}
+REEMPLAZO_SEX = {0: ['F'], 1: ['M']}
+REEMPLAZO_ADDRESS = {0: ['U'], 1: ['R']}
+REEMPLAZO_FAMSIZE = {0: ['GT3'], 1: ['LE3']}
+REEMPLAZO_PSTATUS = {0: ['T'], 1: ['A']}
+REEMPLAZO_SCHOOLSUP = {0: ['no'], 1: ['yes']}
+REEMPLAZO_FAMSUP = {0: ['yes'], 1: ['no']}
+REEMPLAZO_PAID = {0: ['no'], 1: ['yes']}
+REEMPLAZO_ACTIVITIES = {0: ['yes'], 1: ['no']}
+REEMPLAZO_NURSERY = {0: ['yes'], 1: ['no']}
+REEMPLAZO_HIGHER = {0: ['yes'], 1: ['no']}
+REEMPLAZO_INTERNET = {0: ['yes'], 1: ['no']}
+REEMPLAZO_ROMANTIC = {0: ['no'], 1: ['yes']}
+
+CAMBIO_HITO_2 = {'school': REEMPLAZO_SCHOOL,
+                 'sex': REEMPLAZO_SEX,
+                 'address': REEMPLAZO_ADDRESS,
+                 'famsize': REEMPLAZO_FAMSIZE,
+                 'Pstatus': REEMPLAZO_PSTATUS,
+                 'schoolsup': REEMPLAZO_SCHOOLSUP,
+                 'famsup': REEMPLAZO_FAMSUP,
+                 'paid': REEMPLAZO_PAID,
+                 'activities': REEMPLAZO_ACTIVITIES,
+                 'nursery': REEMPLAZO_NURSERY,
+                 'higher': REEMPLAZO_HIGHER,
+                 'internet': REEMPLAZO_INTERNET,
+                 'romantic': REEMPLAZO_ROMANTIC}
+
 
