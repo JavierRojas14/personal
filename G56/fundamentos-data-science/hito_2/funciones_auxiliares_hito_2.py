@@ -40,15 +40,16 @@ def separar_df_a_numericas_categoricas(df):
 
 def graficar_distribucion_variable_numerica(serie_numerica, nombre_grafico):
     fig, axis = plt.subplots(1, 2)
-    sns.histplot(serie_numerica, ax=axis[0])
+    sns.histplot(data=serie_numerica, ax=axis[0])
     axis[0].axvline(serie_numerica.mean(), color='tomato')
-    sns.boxplot(serie_numerica, ax=axis[1])
+    sns.boxplot(data=serie_numerica, ax=axis[1])
 
     plt.title(nombre_grafico)
     plt.show()
 
 
 def analizar_distr_todas_las_variables_numericas(df_numericas):
+    print('Analizando todas las variables numericas \n')
     display(df_numericas.describe())
 
     for columna_numerica, serie_numerica in df_numericas.items():
@@ -67,9 +68,15 @@ def graficar_distribucion_variable_categorica(serie_categorica, nombre_grafico):
 
 
 def analizar_dist_todas_las_variables_categoricas(df_categoricas):
+    print('Analizando todas las variables categoricas \n')
     for columna_categorica, serie_categorica in df_categoricas.items():
         graficar_distribucion_variable_categorica(
             serie_categorica, columna_categorica)
+
+def analizar_correlacion_todas_las_variables(df_variables):
+    corr = df_variables.corr()
+    sns.heatmap(corr, cmap='Blues', annot=True)
+    plt.show()
 
 
 def analizar_valores_faltantes(variables_a_analizar):
@@ -84,7 +91,11 @@ def analizar_valores_faltantes(variables_a_analizar):
     msno.matrix(variables_a_analizar)
 
 
-def calcular_perdida_de_datos(df_completa):
+def mostrar_perdida_de_datos(df_completa):
     cantidad_valores_originales = len(df_completa)
     cantidad_valores_droppeados = len(df_completa.dropna())
-    return round(1 - (cantidad_valores_droppeados / cantidad_valores_originales), 2)
+    porcentaje_droppeo = (cantidad_valores_droppeados / cantidad_valores_originales)
+    cambio = round((1 - porcentaje_droppeo) * 100, 2)
+
+    print(f'Al droppear todos los valores faltantes en la DataFrame se pierde el {cambio}% '
+          f'de los datos totales')
