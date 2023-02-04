@@ -56,12 +56,6 @@ def analizar_distr_todas_las_variables_numericas(df_numericas):
             serie_numerica, columna_numerica)
 
 
-def analizar_dist_todas_las_variables_categoricas(df_categoricas):
-    for columna_categorica, serie_categorica in df_categoricas.items():
-        graficar_distribucion_variable_categorica(
-            serie_categorica, columna_categorica)
-
-
 def graficar_distribucion_variable_categorica(serie_categorica, nombre_grafico):
     serie_conteo = serie_categorica.value_counts()
     print(nombre_grafico)
@@ -70,6 +64,12 @@ def graficar_distribucion_variable_categorica(serie_categorica, nombre_grafico):
     sns.countplot(y=serie_categorica, order=serie_conteo.index)
     plt.title(nombre_grafico)
     plt.show()
+
+
+def analizar_dist_todas_las_variables_categoricas(df_categoricas):
+    for columna_categorica, serie_categorica in df_categoricas.items():
+        graficar_distribucion_variable_categorica(
+            serie_categorica, columna_categorica)
 
 
 def analizar_valores_faltantes(variables_a_analizar):
@@ -82,6 +82,7 @@ def analizar_valores_faltantes(variables_a_analizar):
     display(faltantes_resumen)
 
     msno.matrix(variables_a_analizar)
+
 
 def calcular_perdida_de_datos(df_completa):
     cantidad_valores_originales = len(df_completa)
