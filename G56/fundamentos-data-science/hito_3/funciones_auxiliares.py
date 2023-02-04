@@ -87,3 +87,76 @@ def calcular_perdida_de_datos(df_completa):
     cantidad_valores_originales = len(df_completa)
     cantidad_valores_droppeados = len(df_completa.dropna())
     return round(1 - (cantidad_valores_droppeados / cantidad_valores_originales), 2)
+
+REEMPLAZO_OCCUPATION = {'white-collar': ['Prof-specialty', 'Exec-managerial', 'Adm-clerical', 'Sales',
+                                         'Tech-support'],
+                        'blue-collar': ['Craft-repair', 'Machine-op-inspct', 'Transport-moving',
+                                        'Handlers-cleaners', 'Farming-fishing', 'Protective-serv',
+                                        'Priv-house-serv'],
+                        'others': ['Other-service', 'Armed-Forces']}
+
+REEMPLAZO_WORKCLASS = {'federal-gov': ['Federal-gov'],
+                       'state-level-gov': ['State-gov', 'Local-gov'],
+                       'self-employed': ['Self-emp-inc', 'Self-emp-not-inc'],
+                       'unemployed': ['Never-worked', 'Without-pay']}
+
+REEMPLAZO_EDUCATION = {'preschool': ['Preschool'],
+                       'elementary-school': ['1st-4th', '5th-6th'],
+                       'high-school': ['7th-8th', '9th', '10th','11th', '12th', 'HS-grad'],
+                       'college': ['Assoc-voc', 'Assoc-acdm', 'Some-college'],
+                       'university': ['Bachelors', 'Masters', 'Prof-school', 'Doctorate']}
+
+REEMPLAZO_MARITAL = {'married': ['Married-civ-spouse', 'Married-spouse-absent','Married-AF-spouse'],
+                     'divorced': ['Divorced'],
+                     'separated': ['Separated'],
+                     'widowed': ['Widowed']}
+
+REEMPLAZO_COUNTRY = {'america': ["United-States", "Mexico", "Puerto-Rico", "Canada", "El-Salvador", 
+                                 "Cuba", "Jamaica", "Dominican-Republic", "Guatemala", "Columbia", 
+                                 "Haiti", "Nicaragua", "Peru", "Ecuador", "Trinadad&Tobago", 
+                                 "Outlying-US(Guam-USVI-etc)"],
+                     'asia': ["Philippines", "India", "China", "Japan", "Vietnam", "Taiwan", 
+                              "Iran", "Hong", "Thailand", "Cambodia", "Laos"],
+                     'europe': ["Germany", "England", "Italy", "Poland", "Portugal", "Greece", 
+                                "France", "Ireland", "Yugoslavia", "Scotland", "Honduras", 
+                                "Hungary", "Holand-Netherlands"],
+                     'oceania': [],
+                     'africa': ["South"]}
+
+REEMPLAZO_INCOME = {0: ['<=50K'], 1: ['>50K']}
+REEMPLAZO_SEX = {0: ['Male'], 1: ['Female']}
+
+RECODIFICACION_ENUNCIADO_1 = [REEMPLAZO_OCCUPATION, REEMPLAZO_WORKCLASS, REEMPLAZO_EDUCATION,
+                              REEMPLAZO_MARITAL, REEMPLAZO_COUNTRY, REEMPLAZO_INCOME, REEMPLAZO_SEX]
+
+def recodificar_variable(df, diccionario_cambio):
+    tmp = df.copy()
+    for valor_nuevo, valores_antiguos in diccionario_cambio.items():
+        tmp = tmp.replace(valores_antiguos, valor_nuevo)
+
+    return tmp
+
+def recodificar_enunciado_uno(df):
+    recodificada = df.copy()
+    for dict_recod in RECODIFICACION_ENUNCIADO_1:
+        recodificada = recodificar_variable(recodificada, dict_recod)
+    
+    return recodificada
+
+def codificar_a_one_hot(df, nombre_columna, serie_columna):
+    tmp = df.copy()
+
+    df_unida = tmp.join(pd.get_dummies(serie_columna, drop_first=True))
+    df_unida = df_unida.drop(columns=nombre_columna)
+    
+    return df_unida
+
+def one_hot_todas_las_categoricas(df):
+    tmp = df.copy()
+
+    _, categoricas = separar_df_a_numericas_categoricas(df)
+    for nombre_columna, serie_columna in categoricas.items():
+        tmp = codificar_a_one_hot(tmp, nombre_columna, serie_columna)
+    
+    return tmp
+
