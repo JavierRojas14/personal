@@ -48,7 +48,7 @@ def graficar_distribucion_variable_numerica(serie_numerica, nombre_grafico):
     plt.show()
 
 
-def analizar_distribucion_variables_numericas(df_numericas):
+def analizar_distr_todas_las_variables_numericas(df_numericas):
     display(df_numericas.describe())
 
     for columna_numerica, serie_numerica in df_numericas.items():
