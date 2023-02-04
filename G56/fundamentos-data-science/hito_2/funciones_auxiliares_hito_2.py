@@ -56,7 +56,7 @@ def analizar_distr_todas_las_variables_numericas(df_numericas):
             serie_numerica, columna_numerica)
 
 
-def analizar_distribucion_variables_categoricas(df_categoricas):
+def analizar_dist_todas_las_variables_categoricas(df_categoricas):
     for columna_categorica, serie_categorica in df_categoricas.items():
         graficar_distribucion_variable_categorica(
             serie_categorica, columna_categorica)
