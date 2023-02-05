@@ -271,6 +271,7 @@ def preprocesar_y_recodificar_enunciado_dos(df):
 
     tmp = tmp.replace(['nulidade', 'sem validade', 'zero'], np.nan)
     tmp = corregir_variables_numericas(tmp)
+    tmp = tmp.dropna()
     tmp = cambiar_vars_binarias_enunciado_dos(tmp)
     tmp = unir_codificacion_one_hot_vars_categoricas(tmp)
 
