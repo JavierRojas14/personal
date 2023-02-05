@@ -19,13 +19,19 @@ from sklearn.metrics import roc_curve, roc_auc_score
 
 def crear_formula_econometria(df, vector_objetivo):
     variables_independientes = ' + '.join(df.drop(columns=vector_objetivo).columns)
-    formula_final = f'income ~ {variables_independientes}'
+    formula_final = f'{vector_objetivo} ~ {variables_independientes}'
 
     return formula_final
 
 def crear_modelo_logistico(df, vector_objetivo):
     formula = crear_formula_econometria(df, vector_objetivo)
     modelo = smf.logit(formula, df).fit()
+
+    return modelo
+
+def crear_modelo_lineal(df, vector_objetivo):
+    formula = crear_formula_econometria(df, vector_objetivo)
+    modelo = smf.ols(formula, df).fit()
 
     return modelo
 
