@@ -18,8 +18,8 @@ from sklearn.model_selection import cross_val_score
 from sklearn.metrics import roc_curve, roc_auc_score
 
 def separar_vector_objetivo_e_indep(df, vector_objetivo):
-    X = df.drop(columns='income')
-    y = df['income']
+    X = df.drop(columns=vector_objetivo)
+    y = df[vector_objetivo]
 
     return X, y
 
