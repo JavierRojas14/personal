@@ -13,7 +13,7 @@ import statsmodels.formula.api as smf
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import roc_curve, roc_auc_score
 
@@ -23,11 +23,11 @@ def separar_vector_objetivo_e_indep(df, vector_objetivo):
 
     return X, y
 
-def calcular_roc_cross_val(df, vector_objetivo, cantidad_folds):
+def calcular_roc_cross_val(df, instancia_modelo, vector_objetivo, cantidad_folds):
     X, y = separar_vector_objetivo_e_indep(df, vector_objetivo)
     X_escalado = StandardScaler().fit_transform(X)
 
-    roc_acumulado = cross_val_score(LogisticRegression(), X=X_escalado, y=y, cv=cantidad_folds, 
+    roc_acumulado = cross_val_score(instancia_modelo, X=X_escalado, y=y, cv=cantidad_folds, 
                                     scoring='roc_auc')
     
     return roc_acumulado
