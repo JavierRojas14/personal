@@ -191,6 +191,7 @@ def preprocesar_y_recodificar_enunciado_uno(df):
 
     tmp = tmp.replace('?', np.nan)
     tmp = tmp.dropna()
+    tmp = tmp.drop(columns='educational-num')
     tmp = recodificar_enunciado_uno(tmp)
     tmp = unir_codificacion_one_hot_vars_categoricas(tmp)
     tmp.columns = tmp.columns.str.replace('-', '_')
