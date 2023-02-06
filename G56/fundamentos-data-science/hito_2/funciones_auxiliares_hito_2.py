@@ -1,5 +1,3 @@
-import warnings
-
 import pandas as pd
 import numpy as np
 
@@ -164,7 +162,7 @@ def analizar_valores_faltantes(variables_a_analizar):
     '''Función que permite cuantificar la cantidad de valores faltantes en un DataFrame que se
     quiera analizar. Muestra la cantidad y el porcentaje de valores faltantes por columna/variable
     presente en la base de datos
-    
+
     :param variables_a_analizar: Es el conjunto de variables que se quieren analizar
     :type variables_a_analizar: pd.DataFrame
     '''
@@ -265,7 +263,8 @@ def recodificar_variables(df, diccionario_var_a_cambiar):
     tmp = df.copy()
 
     for variable, dict_reemplazo in diccionario_var_a_cambiar.items():
-        tmp[variable] = cambiar_valores_en_variable(tmp[variable], dict_reemplazo)
+        tmp[variable] = cambiar_valores_en_variable(
+            tmp[variable], dict_reemplazo)
 
     return tmp
 
@@ -318,11 +317,11 @@ def unir_codificacion_one_hot_vars_categoricas(df):
 def preprocesar_y_recodificar_enunciado_uno(df):
     '''Función específica que engloba el preprocesamiento y trata de valores faltantes para el
     enunciado 1 de la prueba de Fundamentos de Data Science de Desafios Latam.
-    
+
     :param df: DataFrame sin modificar del enunciado 1 prueba de Fundamentos de Data Science 
     de Desafios Latam
     :type df: pd.DataFrame
-    
+
     :returns: El DataFrame completamente preprocesado y sin valores faltantes
     :rtype: pd.DataFrame
     '''
@@ -338,6 +337,35 @@ def preprocesar_y_recodificar_enunciado_uno(df):
     return tmp
 
 # Enunciado 2
+
+
+REEMPLAZO_SCHOOL = {0: ['GP'], 1: ['MS']}
+REEMPLAZO_GENDER = {0: ['F'], 1: ['M']}
+REEMPLAZO_ADDRESS = {0: ['U'], 1: ['R']}
+REEMPLAZO_FAMSIZE = {0: ['GT3'], 1: ['LE3']}
+REEMPLAZO_PSTATUS = {0: ['T'], 1: ['A']}
+REEMPLAZO_SCHOOLSUP = {0: ['no'], 1: ['yes']}
+REEMPLAZO_FAMSUP = {0: ['yes'], 1: ['no']}
+REEMPLAZO_PAID = {0: ['no'], 1: ['yes']}
+REEMPLAZO_ACTIVITIES = {0: ['yes'], 1: ['no']}
+REEMPLAZO_NURSERY = {0: ['yes'], 1: ['no']}
+REEMPLAZO_HIGHER = {0: ['yes'], 1: ['no']}
+REEMPLAZO_INTERNET = {0: ['yes'], 1: ['no']}
+REEMPLAZO_ROMANTIC = {0: ['no'], 1: ['yes']}
+
+CAMBIO_HITO_2 = {'school': REEMPLAZO_SCHOOL,
+                 'sex': REEMPLAZO_GENDER,
+                 'address': REEMPLAZO_ADDRESS,
+                 'famsize': REEMPLAZO_FAMSIZE,
+                 'Pstatus': REEMPLAZO_PSTATUS,
+                 'schoolsup': REEMPLAZO_SCHOOLSUP,
+                 'famsup': REEMPLAZO_FAMSUP,
+                 'paid': REEMPLAZO_PAID,
+                 'activities': REEMPLAZO_ACTIVITIES,
+                 'nursery': REEMPLAZO_NURSERY,
+                 'higher': REEMPLAZO_HIGHER,
+                 'internet': REEMPLAZO_INTERNET,
+                 'romantic': REEMPLAZO_ROMANTIC}
 
 
 def corregir_var_numerica_con_comillas(serie_semi_numerica):
@@ -374,40 +402,12 @@ def corregir_variables_numericas(df):
     return tmp
 
 
-REEMPLAZO_SCHOOL = {0: ['GP'], 1: ['MS']}
-REEMPLAZO_GENDER = {0: ['F'], 1: ['M']}
-REEMPLAZO_ADDRESS = {0: ['U'], 1: ['R']}
-REEMPLAZO_FAMSIZE = {0: ['GT3'], 1: ['LE3']}
-REEMPLAZO_PSTATUS = {0: ['T'], 1: ['A']}
-REEMPLAZO_SCHOOLSUP = {0: ['no'], 1: ['yes']}
-REEMPLAZO_FAMSUP = {0: ['yes'], 1: ['no']}
-REEMPLAZO_PAID = {0: ['no'], 1: ['yes']}
-REEMPLAZO_ACTIVITIES = {0: ['yes'], 1: ['no']}
-REEMPLAZO_NURSERY = {0: ['yes'], 1: ['no']}
-REEMPLAZO_HIGHER = {0: ['yes'], 1: ['no']}
-REEMPLAZO_INTERNET = {0: ['yes'], 1: ['no']}
-REEMPLAZO_ROMANTIC = {0: ['no'], 1: ['yes']}
-
-CAMBIO_HITO_2 = {'school': REEMPLAZO_SCHOOL,
-                 'sex': REEMPLAZO_GENDER,
-                 'address': REEMPLAZO_ADDRESS,
-                 'famsize': REEMPLAZO_FAMSIZE,
-                 'Pstatus': REEMPLAZO_PSTATUS,
-                 'schoolsup': REEMPLAZO_SCHOOLSUP,
-                 'famsup': REEMPLAZO_FAMSUP,
-                 'paid': REEMPLAZO_PAID,
-                 'activities': REEMPLAZO_ACTIVITIES,
-                 'nursery': REEMPLAZO_NURSERY,
-                 'higher': REEMPLAZO_HIGHER,
-                 'internet': REEMPLAZO_INTERNET,
-                 'romantic': REEMPLAZO_ROMANTIC}
-
-
 def cambiar_vars_binarias_enunciado_dos(df):
     tmp = df.copy()
 
     for variable, dict_reemplazo in CAMBIO_HITO_2.items():
-        tmp[variable] = cambiar_valores_en_variable(tmp[variable], dict_reemplazo)
+        tmp[variable] = cambiar_valores_en_variable(
+            tmp[variable], dict_reemplazo)
 
     return tmp
 
