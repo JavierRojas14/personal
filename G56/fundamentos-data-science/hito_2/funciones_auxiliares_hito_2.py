@@ -70,6 +70,8 @@ def analizar_vector_objetivo_discreto(serie_variable):
     sns.histplot(serie_variable)
     plt.show()
 
+    numero_faltantes = serie_variable.isnull().sum()
+    print(f'La variable presentó {numero_faltantes} valores faltantes')
     msno.matrix(pd.DataFrame(serie_variable))
     plt.show()
 
