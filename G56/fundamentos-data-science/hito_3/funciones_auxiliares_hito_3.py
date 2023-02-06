@@ -48,6 +48,7 @@ def mostrar_valores_significativos(resumen_modelo, threshold):
     menores_a_threshold = obtener_tabla_factores_significativos(resumen_modelo, threshold)
     menores_a_threshold['interpretacion_coef'] = menores_a_threshold['coef'] / 4
     menores_a_threshold = menores_a_threshold[['coef', 'interpretacion_coef']]
+    menores_a_threshold = menores_a_threshold.sort_values(by='coef')
 
     print(f'Los valores que afectan significativamente (p < {threshold}) a la variable dependiente '
           f'son: \n{menores_a_threshold.to_markdown()}')
