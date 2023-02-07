@@ -1,3 +1,9 @@
+import pandas as pd
+
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+
+
 def crear_formula_econometria(df, vector_objetivo):
     '''Funcion para crear automáticamente la fórmula del modelo predictivo basado en la econometría
 
