@@ -172,7 +172,7 @@ def analizar_valores_faltantes(variables_a_analizar):
     porcentaje_faltantes = round(
         valores_faltantes * 100 / len(variables_a_analizar), 2)
 
-    faltantes_resumen = pd.DataFrame({'columna': variables_a_analizar.columns,
+    faltantes_resumen = pd.DataFrame({
                                       'cantidad_na': valores_faltantes,
                                       'porcentaje_na': porcentaje_faltantes})
     display(faltantes_resumen)
