@@ -371,10 +371,29 @@ CAMBIO_HITO_2 = {'school': REEMPLAZO_SCHOOL,
 
 
 def corregir_var_numerica_con_comillas(serie_semi_numerica):
+    '''Funcion que permite corregir el formato de columnas numericas interpretadas como strings.
+    La columna debe tener los numeros entre comillas (")
+
+    :param serie_semi_numerica: Es el conjunto de datos numericos, que estan erroneamente imputados
+    y presenta comillas
+    :type serie_semi_numerica: pd.Series
+
+    :returns: El conjunto de datos correctamente interpretados como valores flotantes
+    :rtype: pd.Series
+    '''
     return serie_semi_numerica.str.replace('"', '').astype(float)
 
 
 def corregir_variables_numericas(df):
+    '''Corrige las variables numericas presentes en el enunciado_2 de la prueba de Fundamentos
+    de Data Science de Desafios Latam
+
+    :param df: Es el DataFrame que contiene las variables numericas mal imputadas
+    :type df: pd.DataFrame
+
+    :returns: Retorna el dataFrame con las variables numericas corregidas en formato float
+    :rtype: pd.DataFrame
+    '''
     tmp = df.copy()
 
     vars_erroneas = ['age', 'goout', 'health']
@@ -403,25 +422,24 @@ def corregir_variables_numericas(df):
 
     return tmp
 
-
-def cambiar_vars_binarias_enunciado_dos(df):
-    tmp = df.copy()
-
-    for variable, dict_reemplazo in CAMBIO_HITO_2.items():
-        tmp[variable] = cambiar_valores_en_variable(
-            tmp[variable], dict_reemplazo)
-
-    return tmp
-
-
 def preprocesar_y_recodificar_enunciado_dos(df):
+    '''Función específica que engloba el preprocesamiento y trata de valores faltantes para el
+    enunciado 2 de la prueba de Fundamentos de Data Science de Desafios Latam.
+
+    :param df: DataFrame sin modificar del enunciado 2 prueba de Fundamentos de Data Science 
+    de Desafios Latam
+    :type df: pd.DataFrame
+
+    :returns: El DataFrame completamente preprocesado y sin valores faltantes
+    :rtype: pd.DataFrame
+    '''
     tmp = df.copy()
 
     tmp = tmp.replace(['nulidade', 'sem validade', 'zero'], np.nan)
     tmp = tmp.dropna()
     tmp = tmp.drop(columns='Unnamed: 0')
     tmp = corregir_variables_numericas(tmp)
-    tmp = cambiar_vars_binarias_enunciado_dos(tmp)
+    tmp = recodificar_variables(tmp, CAMBIO_HITO_2)
     tmp = unir_codificacion_one_hot_vars_categoricas(tmp)
 
     return tmp
