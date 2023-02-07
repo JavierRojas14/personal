@@ -173,8 +173,8 @@ def analizar_valores_faltantes(variables_a_analizar):
         valores_faltantes * 100 / len(variables_a_analizar), 2)
 
     faltantes_resumen = pd.DataFrame({
-                                      'cantidad_na': valores_faltantes,
-                                      'porcentaje_na': porcentaje_faltantes})
+        'cantidad_na': valores_faltantes,
+        'porcentaje_na': porcentaje_faltantes})
     display(faltantes_resumen)
 
     msno.matrix(variables_a_analizar)
@@ -421,6 +421,7 @@ def corregir_variables_numericas(df):
     tmp[variables_numericas] = tmp[variables_numericas].astype(float)
 
     return tmp
+
 
 def preprocesar_y_recodificar_enunciado_dos(df):
     '''Función específica que engloba el preprocesamiento y trata de valores faltantes para el
