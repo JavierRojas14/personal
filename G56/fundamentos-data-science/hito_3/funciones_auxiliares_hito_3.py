@@ -91,7 +91,7 @@ def obtener_tabla_factores_significativos(resumen_modelo, threshold):
     :rtype: pd.DataFrame
     '''
     tabla_coeficientes = extraer_tabla_modelos(resumen_modelo)
-    p_menor_a = tabla_coeficientes[tabla_coeficientes['P>|z|'] < threshold]
+    p_menor_a = tabla_coeficientes[tabla_coeficientes.iloc[:, 3] < threshold]
 
     return p_menor_a
 
