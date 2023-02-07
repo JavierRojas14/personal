@@ -70,6 +70,8 @@ def analizar_vector_objetivo_discreto(serie_variable):
     sns.histplot(serie_variable)
     plt.show()
 
+    numero_faltantes = serie_variable.isnull().sum()
+    print(f'La variable presentó {numero_faltantes} valores faltantes')
     msno.matrix(pd.DataFrame(serie_variable))
     plt.show()
 
@@ -416,6 +418,8 @@ def preprocesar_y_recodificar_enunciado_dos(df):
     tmp = df.copy()
 
     tmp = tmp.replace(['nulidade', 'sem validade', 'zero'], np.nan)
+    tmp = tmp.dropna()
+    tmp = tmp.drop(columns='Unnamed: 0')
     tmp = corregir_variables_numericas(tmp)
     tmp = cambiar_vars_binarias_enunciado_dos(tmp)
     tmp = unir_codificacion_one_hot_vars_categoricas(tmp)
