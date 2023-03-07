@@ -35,3 +35,26 @@ Son fenómenos que se pueden observar al realizar un modelo predictivo.
 - **Sobreajuste:** Ocurre cuando nuestro modelo se ajustó demasiado a nuestros datos de entrenamiento. Esto hace que sea muy malo para predecir nuevos datos. Tiene una alta variabilidad (demasiado flexible), explica muy bien los datos de entrenamiento, pero tiene menores chanches de explicar un nuevo set de datos
 
 ![Fitting](https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190523171258/overfitting_2.png)
+
+
+# Elementos básicos de la regularización
+
+Tomando como punto de partida a la regresión lineal.
+
+- Para obtener la linea recta se utiliza el método de los mínimos cuadrados
+- Esta forma permite que las estimaciones sean insesgadas y óptimas
+
+Pero, por qué regularizar?
+
+1. Puede que hayan parámetros que tengan un peso exagerado en la estimación
+2. Puede hacer que la estimación del modelo sea mucho más óptima (sobretodo cuando hay muchas variable predictivas)
+3. Permite seleccionar los mejores parámetros
+4. Permite evaluar insesgadamente cuales son las mejores opciones para hacer un modelo
+
+### Norma L1
+
+Sintentiza la distancia entre dos vectores mediante la norma absoluta. Se conoce como Lasso.
+
+### Norma L2
+
+Sintentiza la distancia entre dos vectores mediante la norma euclídea. Se conoce como Ridge.
