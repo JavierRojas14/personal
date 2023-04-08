@@ -62,7 +62,7 @@ def grid_plot_batch(df, cols, plot_type):
 
     """
     # calcular un aproximado a la cantidad de filas
-    rows = np.ceil(df.shape[1] / cols)
+    rows = int(np.ceil(df.shape[1] / cols))
 
     # para cada columna
     for index, (colname, serie) in enumerate(df.iteritems()):
