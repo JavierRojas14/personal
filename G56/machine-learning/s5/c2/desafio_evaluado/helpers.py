@@ -23,6 +23,7 @@ def plot_classification_report(y_true, y_hat):
     report = classification_report(y_true, y_hat).split()
     # keep values
     report = [i for i in report if i not in ['precision', 'recall', 'f1-score', 'support', 'avg']]
+    print(report)
     # transfer to a DataFrame
     report = pd.DataFrame(np.array(report).reshape(len(report) // 5, 5))
     # asign columns labels
