@@ -83,7 +83,7 @@ def identify_high_correlations(df, threshold=.7):
     """
 
     # extraemos la matriz de correlación con una máscara booleana
-    tmp = df.corr().mask(abs(df.corr()) < .7, df)
+    tmp = df.corr().mask(abs(df.corr()) < threshold, df)
     # convertimos a long format
     tmp = pd.melt(tmp)
     # agregamos una columna extra que nos facilitará los cruces entre variables
