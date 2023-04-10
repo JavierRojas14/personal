@@ -69,6 +69,7 @@ def grid_plot_batch(df, cols, plot_type):
     for index, (colname, serie) in enumerate(df.iteritems()):
         plt.subplot(rows, cols, index + 1)
         plot_type(serie)
+        plt.title(colname)
         plt.tight_layout()
 
 def identify_high_correlations(df, threshold=.7):
