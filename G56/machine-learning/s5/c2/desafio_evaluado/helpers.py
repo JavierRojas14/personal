@@ -21,8 +21,10 @@ def plot_classification_report(y_true, y_hat):
     """
     # process string and store in a list
     report = classification_report(y_true, y_hat).split()
+    print(report)
     # keep values
-    report = [i for i in report if i not in ['precision', 'recall', 'f1-score', 'support', 'avg']]
+    report = [i for i in report if i not in ['precision', 'recall', 'f1-score', 'support', 'avg',
+                                             'accuracy', 'macro', 'weighted']]
     print(report)
     # transfer to a DataFrame
     report = pd.DataFrame(np.array(report).reshape(len(report) // 5, 5))
