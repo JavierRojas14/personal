@@ -51,18 +51,6 @@ def plot_classification_report(y_true, y_hat):
     plt.plot(recall_score_value_avg, [2], marker="o", color="forestgreen", label="Avg")
     plt.plot(f1_score_value_avg, [3], marker="o", color="forestgreen")
 
-    return (
-        f1_score_value_0,
-        f1_score_value_1,
-        f1_score_value_avg,
-        precision_score_value_0,
-        precision_score_value_1,
-        precision_score_value_avg,
-        recall_score_value_0,
-        precision_score_value_1,
-        precision_score_value_avg,
-    )
-
 
 def grid_plot_batch(df, cols, plot_type):
     """
