@@ -10,6 +10,10 @@ G56/s3/c2/Desafío evaluado - Quiz app.pdf
 *.webp
 *.jpeg
 *.csv
+*.xlsx
+*.zip
 .DS_Store
 G56/machine-learning/s2/c1/desafio_guiado/Apoyo Desafío - Naive Bayes
 G56/machine-learning/s3/c2/desafio_evaluado/input
+G56/machine-learning/prueba/hito_1/prueba_2/input/helpers.py
+G56/machine-learning/prueba/hito_1/prueba_2/input/preproc_nyc_sqf.py
