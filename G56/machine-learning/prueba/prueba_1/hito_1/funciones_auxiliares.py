@@ -1,8 +1,8 @@
-'''Funciones auxiliares para analizar la distribucion de datos en un DataFrame. Puede:
+"""Funciones auxiliares para analizar la distribucion de datos en un DataFrame. Puede:
 
 - Analizar la distribucion de variables categoricas y numericas
 - Analizar valores faltantes
-'''
+"""
 
 import pandas as pd
 
@@ -136,20 +136,20 @@ def analizar_valores_faltantes(variables_a_analizar):
     msno.matrix(variables_a_analizar)
 
 
-def analizar_variables_independientes(df_independientes):
-    """Función que permite analizar las variables independientes elegidas para un modelo de
-    predicción. Esta función clasifica y separa las variables en numéricas y categóricas. Luego,
-    analiza y grafica la distribución de ambos tipos de variables y finalmente analiza la cantidad
+def analizar_distribucion_y_faltantes_variables(df):
+    """Función que permite analizar la distribucion de variables en un DataFrame. Esta función 
+    clasifica y separa las variables en numéricas y categóricas. Luego, analiza y grafica la 
+    distribución de ambos tipos de variables y finalmente analiza la cantidad
     de valores faltantes.
 
-    :param df_independientes: Es la base de datos que contiene todas las variables independientes
-    a ser utilizadas en el modelo predictivo
-    :type df_independientes: pd.DataFrame
+    :param df: Es la base de datos que contiene todas las variables que se quiere observar su
+    distribucion y valores faltantes
+    :type df: pd.DataFrame
     """
-    numericas, categoricas = separar_df_a_numericas_categoricas(df_independientes)
+    numericas, categoricas = separar_df_a_numericas_categoricas(df)
     analizar_distr_todas_las_variables_numericas(numericas)
     analizar_dist_todas_las_variables_categoricas(categoricas)
-    analizar_valores_faltantes(df_independientes)
+    analizar_valores_faltantes(df)
 
 
 def mostrar_perdida_de_datos(df_completa):
