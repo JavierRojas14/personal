@@ -12,29 +12,6 @@ import seaborn as sns
 import missingno as msno
 
 
-def analizar_vector_objetivo_discreto(serie_variable):
-    """Esta función permite ver la frecuencia, distribución y cantidad de valores faltantes
-    de un vector objetivo discreto
-
-    :param serie_variable: Es el pandas Series del vector objetivo discreto
-    :type serie_variable: pd.Series
-    """
-    frecuencias = serie_variable.value_counts()
-    porcentajes = serie_variable.value_counts("%")
-    total = pd.DataFrame(
-        {"Frecuencia": frecuencias, "Porcentaje": porcentajes}, index=frecuencias.index
-    )
-    display(total)
-
-    sns.histplot(serie_variable)
-    plt.show()
-
-    numero_faltantes = serie_variable.isnull().sum()
-    print(f"La variable presentó {numero_faltantes} valores faltantes")
-    msno.matrix(pd.DataFrame(serie_variable))
-    plt.show()
-
-
 def separar_df_a_numericas_categoricas(df):
     """Esta funcion permite separar un DataFrame en sus variables categoricas (que están en formato
     string u object) y las variables numéricas (que estén en algún formato numérico como int o
@@ -137,8 +114,8 @@ def analizar_valores_faltantes(variables_a_analizar):
 
 
 def analizar_distribucion_y_faltantes_variables(df):
-    """Función que permite analizar la distribucion de variables en un DataFrame. Esta función 
-    clasifica y separa las variables en numéricas y categóricas. Luego, analiza y grafica la 
+    """Función que permite analizar la distribucion de variables en un DataFrame. Esta función
+    clasifica y separa las variables en numéricas y categóricas. Luego, analiza y grafica la
     distribución de ambos tipos de variables y finalmente analiza la cantidad
     de valores faltantes.
 
