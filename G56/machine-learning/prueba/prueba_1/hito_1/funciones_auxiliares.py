@@ -73,11 +73,14 @@ def graficar_distribucion_variable_categorica(serie_categorica, nombre_grafico):
     :param nombre_grafico: Es el título que se le quiere poner al gráfico
     :type nombre_grafico: str
     """
-    serie_conteo = serie_categorica.value_counts()
-    print(nombre_grafico)
-    print(serie_conteo)
+    frecuencias = serie_categorica.value_counts()
+    porcentajes = serie_categorica.value_counts("%")
+    total = pd.DataFrame(
+        {"Frecuencia": frecuencias, "Porcentaje": porcentajes}, index=frecuencias.index
+    )
+    display(total)
 
-    sns.countplot(y=serie_categorica, order=serie_conteo.index)
+    sns.countplot(y=serie_categorica, order=frecuencias.index)
     plt.title(nombre_grafico)
     plt.show()
 
