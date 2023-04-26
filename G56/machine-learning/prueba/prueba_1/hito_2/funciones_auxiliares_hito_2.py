@@ -1,6 +1,8 @@
 import random
+
 from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer, PorterStemmer
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from sklearn.feature_extraction.text import CountVectorizer
 
 random.seed(1)
 
