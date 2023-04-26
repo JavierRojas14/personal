@@ -23,5 +23,6 @@ def codificar_sentimientos(vector_objetivo):
     neutrales = vector_objetivo_codificado[vector_objetivo_codificado == "neutral"]
     neutrales = neutrales.apply(lambda x: random.choice([0, 1]))
     vector_objetivo_codificado.iloc[neutrales.index] = neutrales
+    vector_objetivo_codificado = vector_objetivo_codificado.astype(int)
 
     return vector_objetivo_codificado
