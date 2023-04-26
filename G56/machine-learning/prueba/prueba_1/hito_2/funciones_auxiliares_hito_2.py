@@ -107,8 +107,7 @@ def analizar_resultados_grid_cv(diccionario_resultados):
     return df_resultados
 
 
-def entrenar_y_obtener_desempeno_modelo_en_grilla(modelo_grilla, X_train, X_test, y_train, y_test):
-    modelo_grilla.fit(X_train, y_train)
+def obtener_desempeno_modelo_en_grilla(modelo_grilla, X_test, y_test):
     print("--------------Resultados Conjunto de Entrenamiento-----------------")
     print("Los resultados en la busqueda de hiperparametros son:")
     resultados_grilla = analizar_resultados_grid_cv(modelo_grilla.cv_results_)
@@ -125,4 +124,4 @@ def entrenar_y_obtener_desempeno_modelo_en_grilla(modelo_grilla, X_train, X_test
 
     print("---------------------------------------------------------------------")
 
-    return modelo_grilla, resultados_grilla
+    return resultados_grilla
