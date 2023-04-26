@@ -1,8 +1,16 @@
 import random
 
+
+import pandas as pd
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from sklearn.feature_extraction.text import CountVectorizer
+
+from sklearn.metrics import classification_report, roc_auc_score
 
 random.seed(1)
 
@@ -101,20 +109,20 @@ def analizar_resultados_grid_cv(diccionario_resultados):
 
 def entrenar_y_obtener_desempeno_modelo_en_grilla(modelo_grilla, X_train, X_test, y_train, y_test):
     modelo_grilla.fit(X_train, y_train)
-    print(f"\n\n--------------Resultados Conjunto de Entrenamiento-----------------")
+    print("\n\n--------------Resultados Conjunto de Entrenamiento-----------------")
     print("Los resultados en la busqueda de hiperparametros son:")
     resultados_grilla = analizar_resultados_grid_cv(modelo_grilla.cv_results_)
     plt.show()
     print(f"Los mejores parametros fueron: {modelo_grilla.best_params_}")
     print(f"El mejor desempeno fue: {modelo_grilla.best_score_}")
 
-    print(f"\n\n--------------Resultados Conjunto de Validacion-----------------")
+    print("\n\n--------------Resultados Conjunto de Validacion-----------------")
     yhat = modelo_grilla.predict(X_test)
     roc = roc_auc_score(y_test, yhat)
     print("Los resultados en el conjunto de validacion son:")
     print(classification_report(y_test, yhat))
     print(f"El ROC fue de: {roc}")
 
-    print(f"---------------------------------------------------------------------")
+    print("---------------------------------------------------------------------")
 
     return modelo_grilla, resultados_grilla
