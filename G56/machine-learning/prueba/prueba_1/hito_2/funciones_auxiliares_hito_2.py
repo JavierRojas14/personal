@@ -1,4 +1,6 @@
 import random
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer, PorterStemmer
 
 random.seed(1)
 
@@ -16,6 +18,54 @@ DICCIONARIO_REEMPLAZO = {
     "boredom": 0,
     "anger": 0,
 }
+
+
+lemmatizer = WordNetLemmatizer()
+stemmer = PorterStemmer()
+
+STOPWORDS_INGLES = set(stopwords.words("english"))
+
+
+def preprocesar_texto_lema(texto):
+    tokens = texto.split()
+    filtro_stop_words = [palabra for palabra in tokens if palabra not in STOPWORDS_INGLES]
+    lematizacion = [lemmatizer.lemmatize(palabra, "v") for palabra in filtro_stop_words]
+
+    texto_juntado = " ".join(lematizacion)
+
+    return texto_juntado
+
+
+def preprocesar_texto_stem(texto):
+    tokens = texto.split()
+    filtro_stop_words = [palabra for palabra in tokens if palabra not in STOPWORDS_INGLES]
+    stemmizacion = [stemmer.stem(palabra, "v") for palabra in filtro_stop_words]
+
+    texto_juntado = " ".join(stemmizacion)
+
+    return texto_juntado
+
+
+def obtener_100_palabras_mas_frecuentes(serie_textos):
+    """Funcion que permite obtener las 100 palabras mas frecuentes de una lista de
+    textos
+
+    :param serie_palabras: Array de textos a analizar
+    :type serie_palabras: pd.Series
+
+    :returns: Las 100 palabras mas frecuentes para el array de textos
+    :rtype: pd.DataFrame
+    """
+    count_vectorizer = CountVectorizer(stop_words="english")
+    count_vectorizer_fit = count_vectorizer.fit_transform(serie_textos)
+    words = count_vectorizer.get_feature_names_out()
+    words_freq = count_vectorizer_fit.toarray().sum(axis=0)
+
+    conteo_palabras = pd.DataFrame(words_freq, index=words, columns=["conteo"])
+    conteo_palabras = conteo_palabras.sort_values("conteo", ascending=False)
+    conteo_palabras = conteo_palabras.reset_index(names="palabra")
+
+    return conteo_palabras
 
 
 def codificar_sentimientos(vector_objetivo):
