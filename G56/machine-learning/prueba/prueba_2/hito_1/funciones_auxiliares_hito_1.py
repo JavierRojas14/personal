@@ -56,10 +56,11 @@ def analizar_distr_todas_las_variables_numericas(df_numericas):
     :type df_numericas: pd.DataFrame
     """
     print("Analizando todas las variables numericas \n")
-    display(df_numericas.describe())
+    if not(df_numericas.empty):
+        display(df_numericas.describe())
 
-    for columna_numerica, serie_numerica in df_numericas.items():
-        graficar_distribucion_variable_numerica(serie_numerica, columna_numerica)
+        for columna_numerica, serie_numerica in df_numericas.items():
+            graficar_distribucion_variable_numerica(serie_numerica, columna_numerica)
 
 
 def graficar_distribucion_variable_categorica(serie_categorica, nombre_grafico):
