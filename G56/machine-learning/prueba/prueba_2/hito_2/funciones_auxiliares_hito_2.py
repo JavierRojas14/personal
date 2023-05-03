@@ -1,5 +1,12 @@
-import preproc_nyc_sqf as pre
+import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
+from sklearn.metrics import classification_report, roc_auc_score
+
+import preproc_nyc_sqf as pre
+
+sns.set_style()
+plt.rcParams["figure.figsize"] = (12, 6)
 
 
 def preprocesar_vectores_objetivos(df):
@@ -11,7 +18,7 @@ def preprocesar_vectores_objetivos(df):
         | (df_suitable["pf_wall"] == "Y")
         | (df_suitable["pf_grnd"] == "Y")
         | (df_suitable["pf_drwep"] == "Y")
-        | (df_suitable["pf_ptwep"] == "Y") 
+        | (df_suitable["pf_ptwep"] == "Y")
         | (df_suitable["pf_baton"] == "Y")
         | (df_suitable["pf_hcuff"] == "Y")
         | (df_suitable["pf_pepsp"] == "Y")
