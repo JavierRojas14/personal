@@ -3,7 +3,7 @@ import preproc_nyc_sqf as pre
 
 def preprocesar_vectores_objetivos(df):
     df_suitable, _, _ = pre.create_suitable_dataframe(df)
-    df_suitable["arstmad"] = df_suitable["arstmade"].replace({"N": 0, "Y": 1})
+    df_suitable["arstmade"] = df_suitable["arstmade"].replace({"N": 0, "Y": 1})
 
     mask = (
         (df_suitable["pf_hands"] == "Y")
