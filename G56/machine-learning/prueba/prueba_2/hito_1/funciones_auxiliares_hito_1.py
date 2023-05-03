@@ -55,8 +55,8 @@ def analizar_distr_todas_las_variables_numericas(df_numericas):
     :param df_numericas: Es el DataFrame que contiene todas las variables numéricas a analizar
     :type df_numericas: pd.DataFrame
     """
-    print("Analizando todas las variables numericas \n")
     if not(df_numericas.empty):
+        print("Analizando todas las variables numericas \n")
         display(df_numericas.describe())
 
         for columna_numerica, serie_numerica in df_numericas.items():
