@@ -40,12 +40,14 @@ def graficar_distribucion_variable_numerica(serie_numerica, nombre_grafico):
     :type nombre_grafico: str
     """
     fig, axis = plt.subplots(1, 2)
+    print('-----------------------------------------')
     sns.histplot(data=serie_numerica, ax=axis[0])
     axis[0].axvline(serie_numerica.mean(), color="tomato")
     sns.boxplot(data=serie_numerica, ax=axis[1])
 
     plt.title(nombre_grafico)
     plt.show()
+    print('-----------------------------------------')
 
 
 def analizar_distr_todas_las_variables_numericas(df_numericas):
@@ -79,11 +81,13 @@ def graficar_distribucion_variable_categorica(serie_categorica, nombre_grafico):
     total = pd.DataFrame(
         {"Frecuencia": frecuencias, "Porcentaje": porcentajes}, index=frecuencias.index
     )
+    print('-----------------------------------------')
     display(total)
 
     sns.countplot(y=serie_categorica, order=frecuencias.index)
     plt.title(nombre_grafico)
     plt.show()
+    print('-----------------------------------------')
 
 
 def analizar_dist_todas_las_variables_categoricas(df_categoricas):
