@@ -9,6 +9,57 @@ sns.set_style()
 plt.rcParams["figure.figsize"] = (12, 6)
 
 
+def obtener_difs_columnas(df_left, df_right):
+    dif_1 = set(df_left.columns) - set(df_right.columns)
+    dif_2 = set(df_right.columns) - set(df_left.columns)
+
+    return dif_1, dif_2
+
+
+def preprocesar_todo_prueba_2_machine_learning(nombre_archivo):
+    df = pd.read_csv(nombre_archivo).drop(columns="Unnamed: 0")
+    df = preprocesar_vectores_objetivos(df)
+
+    df = preprocesar_vectores_independientes_prueba_2_machine_learning(df)
+
+    return df
+
+
+def preprocesar_vectores_independientes_prueba_2_machine_learning(df):
+    df["sector"] = df["sector"].replace({"N": "Z"})
+    df = df.replace({"Y": 1, "N": 0})
+
+    X_problema_1 = df.drop(columns=["arstmade"])
+    X_problema_1 = unir_codificacion_one_hot_vars_categoricas(X_problema_1)
+
+    y_problema_1 = df["arstmade"]
+
+    df_problema_1 = pd.concat([X_problema_1, y_problema_1], axis=1)
+
+    X_problema_2 = df.drop(
+        columns=[
+            "violent",
+            "pf_hands",
+            "pf_wall",
+            "pf_grnd",
+            "pf_drwep",
+            "pf_ptwep",
+            "pf_baton",
+            "pf_hcuff",
+            "pf_pepsp",
+            "pf_other",
+        ]
+    )
+
+    X_problema_2 = unir_codificacion_one_hot_vars_categoricas(X_problema_2)
+
+    y_problema_2 = df["violent"]
+
+    df_problema_2 = pd.concat([X_problema_2, y_problema_2], axis=1)
+
+    return df_problema_1, df_problema_2
+
+
 def preprocesar_vectores_objetivos(df):
     df_suitable, _, _ = pre.create_suitable_dataframe(df)
     df_suitable["arstmade"] = df_suitable["arstmade"].replace({"N": 0, "Y": 1})
