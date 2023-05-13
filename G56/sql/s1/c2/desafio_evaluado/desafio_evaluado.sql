@@ -47,3 +47,8 @@ FROM Cancion
 WHERE album IN (SELECT titulo_album
                FROM Album
                WHERE anio = 2018);
+
+SELECT titulo_album, artista, nacionalidad
+FROM Album
+INNER JOIN Artista
+ON Album.artista = Artista.nombre_artista;
