@@ -41,3 +41,9 @@ FROM 'C:\Users\Pc\Documents\personal\G56\sql\s1\c2\desafio_evaluado\input\Album.
 DELIMITER ','
 ENCODING 'LATIN-1'
 CSV HEADER;
+
+SELECT *
+FROM Cancion
+WHERE album IN (SELECT titulo_album
+               FROM Album
+               WHERE anio = 2018);
