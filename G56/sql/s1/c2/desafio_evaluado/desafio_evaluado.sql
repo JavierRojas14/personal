@@ -52,3 +52,9 @@ SELECT titulo_album, artista, nacionalidad
 FROM Album
 INNER JOIN Artista
 ON Album.artista = Artista.nombre_artista;
+
+SELECT Cancion.numero_del_track, Cancion.titulo_cancion, Cancion.album, Album.anio, Cancion.artista
+FROM Cancion
+INNER JOIN Album
+ON Cancion.album = Album.titulo_album
+ORDER BY Album.anio ASC, Cancion.album ASC, Cancion.artista ASC;
