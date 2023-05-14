@@ -27,11 +27,11 @@ ALTER TABLE Libro
 ADD COLUMN prestado BOOLEAN;
 
 UPDATE Libro
-SET prestamo = TRUE
+SET prestado = TRUE
 WHERE id_libro = 1;
 
 UPDATE Libro
-SET prestamo = FALSE
+SET prestado = FALSE
 WHERE id_libro = 2;
 
 INSERT INTO Prestamo
