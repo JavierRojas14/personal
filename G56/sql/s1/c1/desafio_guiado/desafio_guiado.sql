@@ -69,3 +69,8 @@ VALUES (11, 2, 'Camelia', '2022-03-10', '2022-03-25');
 
 INSERT INTO Libro
 VALUES (3, 'Habitos Atomicos', 'Colonia', 'Desarrollo Personal');
+
+SELECT nombre_libro, nombre_persona
+FROM Libro
+INNER JOIN Prestamo
+ON Libro.id_libro = Prestamo.id_libro;
