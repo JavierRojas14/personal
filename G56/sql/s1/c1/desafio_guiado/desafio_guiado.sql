@@ -74,3 +74,8 @@ SELECT nombre_libro, nombre_persona
 FROM Libro
 INNER JOIN Prestamo
 ON Libro.id_libro = Prestamo.id_libro;
+
+SELECT *
+FROM Prestamo
+WHERE id_libro = 1
+ORDER BY fecha_inicio DESC;
