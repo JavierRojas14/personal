@@ -63,3 +63,9 @@ VALUES (9, 2, 'Pepe', '2022-02-21', '2022-02-22');
 
 INSERT INTO Prestamo
 VALUES (10, 2, 'John', '2022-02-27', '2022-03-01');
+
+INSERT INTO Prestamo
+VALUES (11, 2, 'Camelia', '2022-03-10', '2022-03-25');
+
+INSERT INTO Libro
+VALUES (3, 'Habitos Atomicos', 'Colonia', 'Desarrollo Personal');
