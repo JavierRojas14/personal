@@ -67,6 +67,19 @@ las demas tablas, ya que cumplen la primera forma normal.
 -- PersonalEmpresa(#rut_vendedor, vendedor) pasara a PersonalEmpresa(#rut_vendedor, nombre_vendedor,
 sobrenombre_vendedor)
 
+-- 2da forma normal. Se quieren eliminar las dependencias parciales!. Este cambio se realizara
+solo a la tabla Articulos. Se obviaran las demas tablas, ya que cumplen con la segunda forma normal.
+
+-- Articulos(#codigo_producto,
+-- producto,
+-- local,
+-- precio,
+-- existencia,
+-- stock,
+-- ubicacion,
+-- numero_bodega) pasara a MaestroArticulos(#codigo_producto, producto, precio, local, ubicacion, numero_bodega)
+-- y DisponbilidadArticulos(#codigo_producto, )
+
 
 
 
