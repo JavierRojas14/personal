@@ -22,79 +22,84 @@ CSV HEADER;
 
 SELECT * FROM tabla;
 
--- 1era forma normal. Se separara la tabla en 4 subtablas, permitiendo que cada una
--- tenga una llave primaria, y que contengan valores atomicos.
+-- Primera forma normal. Obtener valores atomicos y atributos no repetidos.
 
-CREATE TABLE Articulos AS
-SELECT DISTINCT codigo_producto, producto, local, precio, existencia, stock, ubicacion, numero_bodega
+CREATE TABLE primera_forma_normal AS
+SELECT codigo_producto, producto, local, precio, 
+       existencia, stock, ubicacion, numero_bodega, 
+	   split_part(vendedor, ',', 1) AS nombre_vendedor, 
+	   split_part(vendedor, ',', 2) AS sobrenombre_vendedor, rut_vendedor, numero_boleta,
+	   cantidad_vendida, rut_cliente, nombre_cliente
 FROM tabla;
 
-ALTER TABLE Articulos
+SELECT * FROM primera_forma_normal;
+
+-- En este punto, se tiene una tabla en primera forma normal.
+
+-- Segunda forma normal. Obtener la tabla en primera forma normal. Los atributos deben
+-- depender de toda la clave primaria, y no de una parte de ella.
+
+-- La base de datos indica la transaccion de un articulo entre un cliente y un vendedor. La base
+-- se puede separar en: Informacion Articulos, Stock de un Articulo,
+-- Localizacion de la Transaccion, Informacion del Vendedor, Informacion del Cliente e Informacion de la Transaccion.
+
+-- Todas las entidades anteriores seran modeladas de la siguiente forma:
+
+-- InformacionArticulos(#codigo_producto, producto, precio). Indicando que un producto tiene un codigo, producto y precio unico.
+-- StockArticulo(#codigo_producto (FK), #numero_bodega, stock). Indicando que puede haber un unico registro de un articulo en una bodega, con un unico stock. Tambien
+-- indicando que un mismo articulo puede estar en distintas bodegas.
+-- LocalizacionTransaccion(#local, ubicacion). Indicando que un local tiene una unica ubicacion
+-- InformacionVendedor(#rut_vendedor, nombre_vendedor, sobrenombre_vendedor).
+-- InformacionCliente (#rut_cliente, nombre_cliente)
+-- Transacciones(#numero_boleta, local (FK), rut_vendedor (FK), rut_cliente (FK), codigo_producto (FK), numero_bodega (FK), cantidad_vendida)
+
+-- Esta modelacion permite que ninguna entidad presente una dependencia parcial.
+
+CREATE TABLE InformacionArticulos AS
+SELECT DISTINCT codigo_producto, producto, precio
+FROM primera_forma_normal;
+
+ALTER TABLE InformacionArticulos
 ADD PRIMARY KEY (codigo_producto);
 
-SELECT * FROM Articulos;
---
+CREATE TABLE StockArticulo AS
+SELECT DISTINCT codigo_producto, numero_bodega, stock
+FROM primera_forma_normal;
 
-CREATE TABLE PersonalEmpresa AS
-SELECT DISTINCT rut_vendedor, split_part(vendedor, ',', 1) AS nombre_vendedor, split_part(vendedor, ',', 2) AS sobrenombre_vendedor
-FROM tabla;
+ALTER TABLE StockArticulo
+ADD PRIMARY KEY (codigo_producto, numero_bodega),
+ADD CONSTRAINT fk_codigo_producto FOREIGN KEY (codigo_producto) REFERENCES InformacionArticulos (codigo_producto);
 
-ALTER TABLE PersonalEmpresa
-ADD PRIMARY KEY (rut_vendedor);
-
-SELECT * FROM PersonalEmpresa;
-
---
-CREATE TABLE ClientesEmpresa AS
-SELECT rut_cliente, nombre_cliente
-FROM tabla;
-
-ALTER TABLE ClientesEmpresa
-ADD PRIMARY KEY (rut_cliente);
-
-SELECT * FROM ClientesEmpresa;
---
-CREATE TABLE Transacciones AS
-SELECT numero_boleta, rut_vendedor, rut_cliente, codigo_producto, cantidad_vendida
-FROM tabla;
-
-ALTER TABLE Transacciones
-ADD PRIMARY KEY (numero_boleta);
-
-ALTER TABLE Transacciones
-ADD CONSTRAINT fk_rut_vendedor FOREIGN KEY (rut_vendedor) REFERENCES PersonalEmpresa (rut_vendedor);
-
-ALTER TABLE Transacciones
-ADD CONSTRAINT fk_rut_cliente FOREIGN KEY (rut_cliente) REFERENCES ClientesEmpresa (rut_cliente);
-
-ALTER TABLE Transacciones
-ADD CONSTRAINT fk_codigo_producto FOREIGN KEY (codigo_producto) REFERENCES Articulos (codigo_producto);
-
-SELECT * FROM Transacciones;
--- 2da forma normal. Aqui solamente se cambiara la tabla Articulos, ya que la columna ubicacion es parcialmente
--- dependiente de local. Ademas, se eliminara la columna existencia, ya que es redundante (si stock > 0, entonces existe el articulo).
-
-
-CREATE TABLE MaestroArticulos AS
-SELECT codigo_producto, producto, local, precio, stock, numero_bodega
-FROM Articulos;
-
-ALTER TABLE MaestroArticulos
-ADD PRIMARY KEY (codigo_producto);
-
-CREATE TABLE Destinos AS
+CREATE TABLE LocalizacionTransaccion AS
 SELECT DISTINCT local, ubicacion
-FROM Articulos;
+FROM primera_forma_normal;
 
-ALTER TABLE Destinos
+ALTER TABLE LocalizacionTransaccion
 ADD PRIMARY KEY (local);
 
-ALTER TABLE MaestroArticulos
-ADD CONSTRAINT fk_local FOREIGN KEY (local) REFERENCES Destinos (local);
+CREATE TABLE InformacionVendedor AS
+SELECT DISTINCT rut_vendedor, nombre_vendedor, sobrenombre_vendedor
+FROM primera_forma_normal;
 
-SELECT * FROM MaestroArticulos;
-SELECT * FROM Destinos;
+ALTER TABLE InformacionVendedor
+ADD PRIMARY KEY (rut_vendedor);
 
+CREATE TABLE InformacionCliente AS
+SELECT DISTINCT rut_cliente, nombre_cliente
+FROM primera_forma_normal;
 
+ALTER TABLE InformacionCliente
+ADD PRIMARY KEY (rut_cliente);
 
+CREATE TABLE Transacciones AS
+SELECT numero_boleta, local, rut_vendedor, rut_cliente, codigo_producto, numero_bodega, cantidad_vendida
+FROM primera_forma_normal;
 
+ALTER TABLE Transacciones
+ADD PRIMARY KEY (numero_boleta),
+ADD CONSTRAINT fk_local FOREIGN KEY (local) REFERENCES LocalizacionTransaccion (local),
+ADD CONSTRAINT fk_rut_vendedor FOREIGN KEY (rut_vendedor) REFERENCES InformacionVendedor (rut_vendedor),
+ADD CONSTRAINT fk_rut_cliente FOREIGN KEY (rut_cliente) REFERENCES InformacionCliente (rut_cliente),
+ADD CONSTRAINT fk_stock FOREIGN KEY (codigo_producto, numero_bodega) REFERENCES StockArticulo (codigo_producto, numero_bodega);
+
+-- En este punto, todas las tablas estan en la segunda forma normal
