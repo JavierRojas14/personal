@@ -59,21 +59,22 @@ forma:
 -- ClientesEmpresa(#rut_cliente,
 -- nombre_cliente)
 
--- Transacciones(#numero_boleta, rut_vendedor, rut_cliente, codigo_producto, cantidad_vendida)
+-- Transacciones(#numero_boleta, _rut_vendedor_, _rut_cliente_, _codigo_producto_, cantidad_vendida)
 
 -- Esto permitirá que cada tabla tenga una llave primaria.
--- Además, la tabla PersonalEmpresa(#rut_vendedor, vendedor) pasara a PersonalEmpresa(#rut_vendedor, nombre_vendedor,
-sobrenombre_vendedor) para cumplir con la atomicidad de datos.
+-- La tabla PersonalEmpresa(#rut_vendedor, vendedor) pasara a PersonalEmpresa(#rut_vendedor, nombre_vendedor,
+sobrenombre_vendedor) para cumplir con la atomicidad de datos. Por otro lado, se obtendran los registros
+unicos de la tabla Articulos y de la tabla PersonalEmpresa, ya que se evita la duplicidad de datos.
 
 CREATE TABLE Articulos AS
-SELECT codigo_producto, producto, local, precio, existencia, stock, ubicacion, numero_bodega
+SELECT DISTINCT codigo_producto, producto, local, precio, existencia, stock, ubicacion, numero_bodega
 FROM tabla;
 
 ALTER TABLE Articulos
 ADD PRIMARY KEY (codigo_producto);
 
 CREATE TABLE PersonalEmpresa AS
-SELECT rut_vendedor, split_part(vendedor, ',', 1) AS nombre_vendedor, split_part(vendedor, ',', 2) AS sobrenombre_vendedor
+SELECT DISTINCT rut_vendedor, split_part(vendedor, ',', 1) AS nombre_vendedor, split_part(vendedor, ',', 2) AS sobrenombre_vendedor
 FROM tabla;
 
 ALTER TABLE PersonalEmpresa
@@ -91,7 +92,10 @@ SELECT numero_boleta, rut_vendedor, rut_cliente, codigo_producto, cantidad_vendi
 FROM tabla;
 
 ALTER TABLE Transacciones
-ADD PRIMARY KEY (numero_boleta);
+ADD PRIMARY KEY (numero_boleta)
+ADD CONSTRAINT fk_rut_vendedor FOREIGN KEY (rut_vendedor) REFERENCES PersonalEmpresa (rut_vendedor);
+ADD CONSTRAINT fk_rut_cliente FOREIGN KEY (rut_cliente) REFERENCES ClientesEmpresa (rut_cliente);
+ADD CONSTRAINT fk_codigo_producto FOREIGN KEY (codigo_producto) REFERENCES Articulos (codigo_producto);
 
 -- 2da forma normal. Se quieren eliminar las dependencias parciales!. Este cambio se realizara
 solo a la tabla Articulos. Se obviaran las demas tablas, ya que cumplen con la segunda forma normal.
