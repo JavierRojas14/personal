@@ -97,8 +97,12 @@ ADD CONSTRAINT fk_rut_vendedor FOREIGN KEY (rut_vendedor) REFERENCES PersonalEmp
 ADD CONSTRAINT fk_rut_cliente FOREIGN KEY (rut_cliente) REFERENCES ClientesEmpresa (rut_cliente);
 ADD CONSTRAINT fk_codigo_producto FOREIGN KEY (codigo_producto) REFERENCES Articulos (codigo_producto);
 
--- 2da forma normal. Se quieren eliminar las dependencias parciales!. Este cambio se realizara
-solo a la tabla Articulos. Se obviaran las demas tablas, ya que cumplen con la segunda forma normal.
+-- En este punto todas las tablas cumplen con la primera forma normal. Esto, ya que todas tienen valores atomicos
+-- y todas tienen una llave primaria.
+
+-- 2da forma normal. Se quieren eliminar las dependencias parciales!. Este cambio se realizara solamente
+a la tabla Articulos, ya que todas las demas cumplen la 2da forma normal. La tabla Articulos pasara a
+
 
 -- Articulos(#codigo_producto,
 -- producto,
