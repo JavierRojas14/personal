@@ -92,9 +92,27 @@ ADD PRIMARY KEY (local);
 ALTER TABLE MaestroArticulos
 ADD CONSTRAINT fk_local FOREIGN KEY (local) REFERENCES Destinos (local);
 
+-- 3era forma normal. Se deben eliminar las relaciones transitivas. 
+SELECT * FROM ClientesEmpresa;
+SELECT * FROM PersonalEmpresa;
 SELECT * FROM MaestroArticulos;
 SELECT * FROM Destinos;
+SELECT * FROM Transacciones;
 
+-- Si se ve cada una de las tablas resultantes, se puede ver que todas cumplen la 3era forma normal.
+-- Esto, ya que todos los atributos de cada tabla dependen unicamente de la llave primaria. Ademas,
+-- ninguna columna no llave presenta una relacion entre si.
 
+-- Por lo tanto, la base de datos se encuentra normalizada. Solamente queda eliminar las tablas intermedias
+-- y la tabla inicial.
 
+DROP TABLE tabla;
+DROP TABLE articulos CASCADE;
 
+-- Debido a que se elimino la relacion de llave foranea en la tabla transacciones, es necesario redeclararla
+-- con la tabla de maestro articulos
+
+SELECT * FROM MaestroArticulos;
+
+ALTER TABLE Transacciones
+ADD CONSTRAINT fk_codigo_producto FOREIGN KEY (codigo_producto) REFERENCES MaestroArticulos (codigo_producto);
