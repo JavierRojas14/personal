@@ -103,3 +103,30 @@ ADD CONSTRAINT fk_rut_cliente FOREIGN KEY (rut_cliente) REFERENCES InformacionCl
 ADD CONSTRAINT fk_stock FOREIGN KEY (codigo_producto, numero_bodega) REFERENCES StockArticulo (codigo_producto, numero_bodega);
 
 -- En este punto, todas las tablas estan en la segunda forma normal
+
+SELECT * FROM InformacionArticulos;
+SELECT * FROM StockArticulo;
+SELECT * FROM LocalizacionTransaccion;
+SELECT * FROM InformacionVendedor;
+SELECT * FROM InformacionCliente;
+SELECT * FROM Transacciones;
+
+-- Tercera forma normal. Se debe cumplir la segunda forma normal, y toda entidad debe depender
+-- directamente de la clave primaria.
+
+-- En este punto todas las tablas cumplen la tercera forma normal, ya que:
+--  -  Para InformacionArticulos, producto y precio dependen de codigo_producto. Ademas, producto
+--  y precio no dependen entre si.
+
+--  - Para StockArticulo: El stock depende del codigo y del numero de la bodega.
+--  - Para LocalizacionTransaccion: Ubicacion depende solamente del local
+--  - Para Informacion Vendedor: El nombre y el sobrenombre del vendedor depende solamente del rut
+--  - Para Informacion Cliente: El nombre del cliente depende unicamente de su rut
+--  - Para Transacciones: Todos los atributos dependen del numero de la boleta, y ninguno depende
+--  entre si.
+
+-- Por lo tanto, se ha normalizado la base de datos. Solamente queda eliminar la tabla inicial y la tabla
+-- intermedia (primera_forma_normal)
+
+DROP TABLE primera_forma_normal;
+DROP TABLE tabla;
