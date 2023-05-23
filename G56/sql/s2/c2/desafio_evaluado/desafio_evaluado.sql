@@ -1,5 +1,3 @@
-CREATE DATABASE inventario;
-
 CREATE TABLE tabla(
     codigo_producto INT,
     producto TEXT,
@@ -18,53 +16,14 @@ CREATE TABLE tabla(
 );
 
 COPY tabla
-FROM 'C:\Users\javie\OneDrive\Documents\programacion\personal\G56\sql\s2\c2\desafio_evaluado\articulo.csv'
+FROM 'C:\Users\estadistica\Downloads\input\articulos.csv'
 DELIMITER ','
 CSV HEADER;
 
 SELECT * FROM tabla;
 
-
-
--- TABLA(codigo_producto,
--- producto,
--- local,
--- precio,
--- existencia,
--- stock,
--- ubicacion,
--- numero_bodega,
--- vendedor,
--- rut_vendedor,
--- numero_boleta,
--- cantidad_vendida,
--- rut_cliente,
--- nombre_cliente)
-
--- Para realizar la normalización a la primera forma normal, se separararán las tablas de la siguiente
-forma:
-
--- Articulos(#codigo_producto,
--- producto,
--- local,
--- precio,
--- existencia,
--- stock,
--- ubicacion,
--- numero_bodega)
-
--- PersonalEmpresa(#rut_vendedor,
--- vendedor)
-
--- ClientesEmpresa(#rut_cliente,
--- nombre_cliente)
-
--- Transacciones(#numero_boleta, _rut_vendedor_, _rut_cliente_, _codigo_producto_, cantidad_vendida)
-
--- Esto permitirá que cada tabla tenga una llave primaria.
--- La tabla PersonalEmpresa(#rut_vendedor, vendedor) pasara a PersonalEmpresa(#rut_vendedor, nombre_vendedor,
-sobrenombre_vendedor) para cumplir con la atomicidad de datos. Por otro lado, se obtendran los registros
-unicos de la tabla Articulos y de la tabla PersonalEmpresa, ya que se evita la duplicidad de datos.
+-- 1era forma normal. Se separara la tabla en 4 subtablas, permitiendo que cada una
+-- tenga una llave primaria, y que contengan valores atomicos.
 
 CREATE TABLE Articulos AS
 SELECT DISTINCT codigo_producto, producto, local, precio, existencia, stock, ubicacion, numero_bodega
@@ -73,6 +32,9 @@ FROM tabla;
 ALTER TABLE Articulos
 ADD PRIMARY KEY (codigo_producto);
 
+SELECT * FROM Articulos;
+--
+
 CREATE TABLE PersonalEmpresa AS
 SELECT DISTINCT rut_vendedor, split_part(vendedor, ',', 1) AS nombre_vendedor, split_part(vendedor, ',', 2) AS sobrenombre_vendedor
 FROM tabla;
@@ -80,6 +42,9 @@ FROM tabla;
 ALTER TABLE PersonalEmpresa
 ADD PRIMARY KEY (rut_vendedor);
 
+SELECT * FROM PersonalEmpresa;
+
+--
 CREATE TABLE ClientesEmpresa AS
 SELECT rut_cliente, nombre_cliente
 FROM tabla;
@@ -87,32 +52,48 @@ FROM tabla;
 ALTER TABLE ClientesEmpresa
 ADD PRIMARY KEY (rut_cliente);
 
+SELECT * FROM ClientesEmpresa;
+--
 CREATE TABLE Transacciones AS
 SELECT numero_boleta, rut_vendedor, rut_cliente, codigo_producto, cantidad_vendida
 FROM tabla;
 
 ALTER TABLE Transacciones
-ADD PRIMARY KEY (numero_boleta)
+ADD PRIMARY KEY (numero_boleta);
+
+ALTER TABLE Transacciones
 ADD CONSTRAINT fk_rut_vendedor FOREIGN KEY (rut_vendedor) REFERENCES PersonalEmpresa (rut_vendedor);
+
+ALTER TABLE Transacciones
 ADD CONSTRAINT fk_rut_cliente FOREIGN KEY (rut_cliente) REFERENCES ClientesEmpresa (rut_cliente);
+
+ALTER TABLE Transacciones
 ADD CONSTRAINT fk_codigo_producto FOREIGN KEY (codigo_producto) REFERENCES Articulos (codigo_producto);
 
--- En este punto todas las tablas cumplen con la primera forma normal. Esto, ya que todas tienen valores atomicos
--- y todas tienen una llave primaria.
-
--- 2da forma normal. Se quieren eliminar las dependencias parciales!. Este cambio se realizara solamente
-a la tabla Articulos, ya que todas las demas cumplen la 2da forma normal. La tabla Articulos pasara a
+SELECT * FROM Transacciones;
+-- 2da forma normal. Aqui solamente se cambiara la tabla Articulos, ya que la columna ubicacion es parcialmente
+-- dependiente de local. Ademas, se eliminara la columna existencia, ya que es redundante (si stock > 0, entonces existe el articulo).
 
 
--- Articulos(#codigo_producto,
--- producto,
--- local,
--- precio,
--- existencia,
--- stock,
--- ubicacion,
--- numero_bodega) pasara a MaestroArticulos(#codigo_producto, producto, precio, local, ubicacion, numero_bodega)
--- y DisponbilidadArticulos(#codigo_producto, )
+CREATE TABLE MaestroArticulos AS
+SELECT codigo_producto, producto, local, precio, stock, numero_bodega
+FROM Articulos;
+
+ALTER TABLE MaestroArticulos
+ADD PRIMARY KEY (codigo_producto);
+
+CREATE TABLE Destinos AS
+SELECT DISTINCT local, ubicacion
+FROM Articulos;
+
+ALTER TABLE Destinos
+ADD PRIMARY KEY (local);
+
+ALTER TABLE MaestroArticulos
+ADD CONSTRAINT fk_local FOREIGN KEY (local) REFERENCES Destinos (local);
+
+SELECT * FROM MaestroArticulos;
+SELECT * FROM Destinos;
 
 
 
