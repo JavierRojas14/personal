@@ -43,7 +43,7 @@ SELECT * FROM primera_forma_normal;
 -- se puede separar en: Informacion Articulos, Stock de un Articulo,
 -- Localizacion de la Transaccion, Informacion del Vendedor, Informacion del Cliente e Informacion de la Transaccion.
 
--- Todas las entidades anteriores seran modeladas de la siguiente forma:
+-- Todas las entidades anteriores seran modeladas de la siguiente forma (# para llaves primarias y FK para llaves foraneas):
 
 -- InformacionArticulos(#codigo_producto, producto, precio). Indicando que un producto tiene un codigo, producto y precio unico.
 -- StockArticulo(#codigo_producto (FK), #numero_bodega, stock). Indicando que puede haber un unico registro de un articulo en una bodega, con un unico stock. Tambien
