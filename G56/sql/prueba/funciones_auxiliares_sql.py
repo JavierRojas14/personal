@@ -1,4 +1,5 @@
 import csv
+import pandas as pd
 
 
 def insertar_csv_a_tabla_postgres(ruta_csv, nombre_tabla_destino, cursor):
@@ -41,7 +42,9 @@ def reportar_metricas_machine_learning(metricas_machine_learning, y_true, y_pred
 
 
 def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_test, dict_metricas):
+    dfs_resultado = {}
     for vector_objetivo in vectores_objetivos:
+        dfs_predichas_por_vector_objetivo = []
         modelos_entrenados = dict_modelos_entrenados[vector_objetivo]
 
         X_test = df_test.drop(columns=vector_objetivo)
@@ -53,3 +56,13 @@ def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_tes
             print(f"Vector objetivo {vector_objetivo} - Modelo {modelo}")
             reportar_metricas_machine_learning(dict_metricas, y_test, yhat)
             print()
+
+            yhat = pd.Series(yhat)
+            yhat.name = "yhat"
+
+            df_predicha = pd.concat([df_test, yhat], axis=1)
+            dfs_predichas_por_vector_objetivo.append(df_predicha)
+
+        dfs_resultado[vector_objetivo] = dfs_predichas_por_vector_objetivo
+
+    return dfs_resultado
