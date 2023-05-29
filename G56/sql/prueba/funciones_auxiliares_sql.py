@@ -57,10 +57,9 @@ def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_tes
             reportar_metricas_machine_learning(dict_metricas, y_test, yhat)
             print()
 
-            yhat = pd.Series(yhat)
-            yhat.name = "yhat"
+            df_predicha = df_test.copy()
+            df_predicha['yhat'] = yhat
 
-            df_predicha = pd.concat([df_test, yhat], axis=1)
             dfs_predichas_por_modelo[nombre_modelo] = df_predicha
 
         dfs_resultado[vector_objetivo] = dfs_predichas_por_modelo
