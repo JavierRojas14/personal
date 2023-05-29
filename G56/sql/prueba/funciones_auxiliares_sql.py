@@ -15,17 +15,19 @@ def insertar_csv_a_tabla_postgres(ruta_csv, nombre_tabla_destino, cursor):
             cursor.execute(query, row)
 
 
-def entrenar_modelos_en_tanda(vectores_objetivo, dict_modelos_a_entrenar, df_train):
+def entrenar_modelos_en_tanda(vectores_objetivo, modelos_a_entrenar, df_train):
     resultados_modelos = {}
 
     for vector_objetivo in vectores_objetivo:
-        for nombre_modelo, modelo in dict_modelos_a_entrenar.items():
+        modelos_entrenados = []
+        for funcion_modelo in modelos_a_entrenar:
+            modelo = funcion_modelo()
             X_train = df_train.drop(columns=vector_objetivo)
             y_train = df_train[vector_objetivo]
 
             modelo_entrenado = modelo.fit(X_train, y_train)
-            id_modelo = f"{nombre_modelo}_pred_{vector_objetivo}"
+            modelos_entrenados.append(modelo_entrenado)
 
-            resultados_modelos[id_modelo] = modelo_entrenado
+        resultados_modelos[vector_objetivo] = modelos_entrenados
 
     return resultados_modelos
