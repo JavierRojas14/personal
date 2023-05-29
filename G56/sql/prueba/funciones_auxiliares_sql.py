@@ -20,14 +20,14 @@ def entrenar_modelos_en_tanda(vectores_objetivo, modelos_a_entrenar, df_train):
     resultados_modelos = {}
 
     for vector_objetivo in vectores_objetivo:
-        modelos_entrenados = []
-        for funcion_modelo in modelos_a_entrenar:
+        modelos_entrenados = {}
+        for nombre_modelo, funcion_modelo in modelos_a_entrenar.items():
             modelo = funcion_modelo()
             X_train = df_train.drop(columns=vector_objetivo)
             y_train = df_train[vector_objetivo]
 
             modelo_entrenado = modelo.fit(X_train, y_train)
-            modelos_entrenados.append(modelo_entrenado)
+            modelos_entrenados[nombre_modelo] = modelo_entrenado
 
         resultados_modelos[vector_objetivo] = modelos_entrenados
 
@@ -50,7 +50,7 @@ def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_tes
         X_test = df_test.drop(columns=vector_objetivo)
         y_test = df_test[vector_objetivo]
 
-        for modelo in modelos_entrenados:
+        for modelo in modelos_entrenados.ite:
             yhat = modelo.predict(X_test)
 
             print(f"Vector objetivo {vector_objetivo} - Modelo {modelo}")
