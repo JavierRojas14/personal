@@ -44,16 +44,16 @@ def reportar_metricas_machine_learning(metricas_machine_learning, y_true, y_pred
 def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_test, dict_metricas):
     dfs_resultado = {}
     for vector_objetivo in vectores_objetivos:
-        dfs_predichas_por_vector_objetivo = []
+        dfs_predichas_por_modelo = {}
         modelos_entrenados = dict_modelos_entrenados[vector_objetivo]
 
         X_test = df_test.drop(columns=vector_objetivo)
         y_test = df_test[vector_objetivo]
 
-        for modelo in modelos_entrenados.ite:
-            yhat = modelo.predict(X_test)
+        for nombre_modelo, modelo_entrenado in modelos_entrenados.items():
+            yhat = modelo_entrenado.predict(X_test)
 
-            print(f"Vector objetivo {vector_objetivo} - Modelo {modelo}")
+            print(f"{vector_objetivo} - {nombre_modelo}")
             reportar_metricas_machine_learning(dict_metricas, y_test, yhat)
             print()
 
@@ -61,8 +61,8 @@ def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_tes
             yhat.name = "yhat"
 
             df_predicha = pd.concat([df_test, yhat], axis=1)
-            dfs_predichas_por_vector_objetivo.append(df_predicha)
+            dfs_predichas_por_modelo[nombre_modelo] = df_predicha
 
-        dfs_resultado[vector_objetivo] = dfs_predichas_por_vector_objetivo
+        dfs_resultado[vector_objetivo] = dfs_predichas_por_modelo
 
     return dfs_resultado
