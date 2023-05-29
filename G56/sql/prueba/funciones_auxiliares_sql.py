@@ -2,7 +2,7 @@ import csv
 
 
 def insertar_csv_a_tabla_postgres(ruta_csv, nombre_tabla_destino, cursor):
-    with open(ruta_csv) as file:
+    with open(ruta_csv, encoding="utf-8") as file:
         reader = csv.reader(file)
         header = next(reader)
 
@@ -31,3 +31,25 @@ def entrenar_modelos_en_tanda(vectores_objetivo, modelos_a_entrenar, df_train):
         resultados_modelos[vector_objetivo] = modelos_entrenados
 
     return resultados_modelos
+
+
+def reportar_metricas_machine_learning(metricas_machine_learning, y_true, y_pred):
+    print("--------------------------------------------")
+    for nombre_metrica, metrica in metricas_machine_learning.items():
+        print(f"{nombre_metrica}: {metrica(y_true, y_pred)}")
+    print("--------------------------------------------")
+
+
+def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_test, dict_metricas):
+    for vector_objetivo in vectores_objetivos:
+        modelos_entrenados = dict_modelos_entrenados[vector_objetivo]
+
+        X_test = df_test.drop(columns=vector_objetivo)
+        y_test = df_test[vector_objetivo]
+
+        for modelo in modelos_entrenados:
+            yhat = modelo.predict(X_test)
+
+            print(f"Vector objetivo {vector_objetivo} - Modelo {modelo}")
+            reportar_metricas_machine_learning(dict_metricas, y_test, yhat)
+            print()
