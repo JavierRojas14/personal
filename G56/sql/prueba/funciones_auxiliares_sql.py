@@ -58,7 +58,7 @@ def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_tes
             print()
 
             df_predicha = df_test.copy()
-            df_predicha['yhat'] = yhat
+            df_predicha[f'yhat_{vector_objetivo}'] = yhat
 
             dfs_predichas_por_modelo[nombre_modelo] = df_predicha
 
