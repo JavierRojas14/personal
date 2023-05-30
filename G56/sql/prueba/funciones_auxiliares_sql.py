@@ -1,8 +1,33 @@
+"""
+This module provides functions for working with CSV files, training machine learning models,
+and evaluating their performance.
+
+Functions:
+- insertar_csv_a_tabla_postgres(ruta_csv, nombre_tabla_destino, cursor): Inserts the contents
+  of a CSV file into a PostgreSQL table.
+- entrenar_modelos_en_tanda(vectores_objetivo, modelos_a_entrenar, df_train): Trains multiple
+  machine learning models on a given training dataset.
+- reportar_metricas_machine_learning(metricas_machine_learning, y_true, y_pred): Prints the
+  evaluation metrics for machine learning models.
+- testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_test, dict_metricas):
+  Evaluates multiple machine learning models on a given test dataset.
+"""
 import csv
-import pandas as pd
 
 
 def insertar_csv_a_tabla_postgres(ruta_csv, nombre_tabla_destino, cursor):
+    """
+    Inserts the contents of a CSV file into a PostgreSQL table.
+
+   :param ruta_csv: The path to the CSV file.
+   :type ruta_csv: str
+
+   :param nombre_tabla_destino: The name of the destination table.
+   :type nombre_tabla_destino: str
+
+   :param cursor: The cursor object used to execute the SQL query.
+   :type cursor: psycopg2.extensions.cursor
+    """
     with open(ruta_csv, encoding="utf-8") as file:
         reader = csv.reader(file)
         header = next(reader)
@@ -17,6 +42,22 @@ def insertar_csv_a_tabla_postgres(ruta_csv, nombre_tabla_destino, cursor):
 
 
 def entrenar_modelos_en_tanda(vectores_objetivo, modelos_a_entrenar, df_train):
+    """
+    Trains multiple machine learning models on a given training dataset.
+
+   :param vectores_objetivo: A list of target variables to predict.
+   :type vectores_objetivo: list
+
+   :param modelos_a_entrenar: A dictionary mapping model names to their corresponding training 
+   functions.
+   :type modelos_a_entrenar: dict
+
+   :param df_train: The training dataset as a pandas DataFrame.
+   :type df_train: pandas.DataFrame
+
+   :return: A dictionary containing the trained models for each target variable.
+   :rtype: dict
+    """
     resultados_modelos = {}
 
     for vector_objetivo in vectores_objetivo:
@@ -35,6 +76,19 @@ def entrenar_modelos_en_tanda(vectores_objetivo, modelos_a_entrenar, df_train):
 
 
 def reportar_metricas_machine_learning(metricas_machine_learning, y_true, y_pred):
+    """
+    Prints the evaluation metrics for machine learning models.
+
+   :param metricas_machine_learning: A dictionary mapping metric names to their corresponding 
+   metric functions.
+   :type metricas_machine_learning: dict
+
+   :param y_true: The true values of the target variable.
+   :type y_true: array-like
+
+   :param y_pred: The predicted values of the target variable.
+   :type y_pred: array-like
+   """
     print("--------------------------------------------")
     for nombre_metrica, metrica in metricas_machine_learning.items():
         print(f"{nombre_metrica}: {metrica(y_true, y_pred)}")
@@ -42,6 +96,25 @@ def reportar_metricas_machine_learning(metricas_machine_learning, y_true, y_pred
 
 
 def testear_modelos_en_tanda(vectores_objetivos, dict_modelos_entrenados, df_test, dict_metricas):
+    """
+    Evaluates multiple machine learning models on a given test dataset.
+
+   :param vectores_objetivos: A list of target variables to predict.
+   :type vectores_objetivos: list
+
+   :param dict_modelos_entrenados: A dictionary mapping target variables to a dictionary of 
+   trained models.
+   :type dict_modelos_entrenados: dict
+
+   :param df_test: The test dataset as a pandas DataFrame.
+   :type df_test: pandas.DataFrame
+
+   :param dict_metricas: A dictionary mapping metric names to their corresponding metric functions.
+   :type dict_metricas: dict
+
+   :return: A dictionary containing the predicted values for each model and target variable.
+   :rtype: dict
+   """
     dfs_resultado = {}
     for vector_objetivo in vectores_objetivos:
         dfs_predichas_por_modelo = {}
