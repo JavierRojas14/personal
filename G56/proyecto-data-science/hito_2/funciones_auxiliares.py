@@ -17,6 +17,20 @@ def entrenar_ensamble_de_modelos_gridcv(
     """
     Entrena un conjunto de modelos utilizando GridSearchCV y muestra los resultados de desempeño en
     un conjunto de prueba.
+
+   :param grilla_gridcv_con_modelos: Una lista que contiene información sobre los modelos, 
+   parámetros de búsqueda y nombre del modelo.
+   :type grilla_gridcv_con_modelos: list of dictionaries
+   :param X_train: Variables independientes del conjunto de entrenamiento.
+   :type X_train: array-like
+   :param X_test: Variables independientes del conjunto de prueba.
+   :type X_test: array-like
+   :param y_train: Variable dependiente del conjunto de entrenamiento.
+   :type y_train: array-like
+   :param y_test: Variable dependiente del conjunto de prueba.
+   :type y_test: array-like
+
+   :returns: None
     """
     for model_info in grilla_gridcv_con_modelos:
         print("Training", model_info["nombre"], "...")
@@ -80,10 +94,10 @@ def obtener_desempeno_modelo_en_grilla(modelo_grilla, X_test, y_test):
 
     :param modelo_grilla: Modelo entrenado con GridSearchCV.
     :type modelo_grilla: GridSearchCV object
-    :param X_test: Características del conjunto de prueba.
-    :type X_test: array-like, shape (n_samples, n_features)
-    :param y_test: Etiquetas del conjunto de prueba.
-    :type y_test: array-like, shape (n_samples,)
+    :param X_test: Variables independientes del conjunto de prueba.
+    :type X_test: array-like
+    :param y_test: Variable dependiente del conjunto de prueba
+    :type y_test: array-like
     :returns: pandas DataFrame
     """
     print("--------------Resultados Conjunto de Entrenamiento-----------------")
