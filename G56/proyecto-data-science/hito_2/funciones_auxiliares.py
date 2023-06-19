@@ -136,8 +136,8 @@ def preprocesar_dataset_cancer_mama(df):
     # Paso 3: Categorizar la edad en rangos etarios
     tmp["RANGO_ETARIO"] = pd.cut(
         tmp["EDAD"],
-        [-np.inf, 5, 11, 18, 26, 60, np.inf],
-        labels=["Primera Infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Vejez"],
+        [-np.inf, 1, 4, 14, 64, np.inf],
+        labels=["Menores 1 anio", "1 a 4 anios", "5 a 14 anios", "15 a 64 anios", "65 y mas anios"],
     )
     tmp = tmp.drop(columns=["EDAD"])
 
