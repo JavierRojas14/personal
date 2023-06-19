@@ -32,13 +32,13 @@ def entrenar_ensamble_de_modelos_gridcv(
 
 def resumir_resultados_grid_cv(diccionario_resultados):
     """
-    Toma un diccionario de resultados de GridSearchCV y genera un DataFrame resumido con los 
+    Toma un diccionario de resultados de GridSearchCV y genera un DataFrame resumido con los
     resultados.
 
-   :param diccionario_resultados: Diccionario de resultados devuelto por el atributo `cv_results_` 
-   de GridSearchCV.
-   :type diccionario_resultados: dictionary
-   :returns: pandas DataFrame
+    :param diccionario_resultados: Diccionario de resultados devuelto por el atributo `cv_results_`
+    de GridSearchCV.
+    :type diccionario_resultados: dictionary
+    :returns: pandas DataFrame
     """
     df_resultados = pd.DataFrame(diccionario_resultados)
     df_resultados["params_str"] = df_resultados["params"].astype(str)
@@ -50,24 +50,24 @@ def graficar_resultados_grid_cv(resultado_df):
     """
     Grafica los resultados de GridSearchCV en un gráfico de líneas.
 
-   :param resultado_df: DataFrame que contiene los resultados de GridSearchCV.
-   :type resultado_df: pandas DataFrame
-   :returns: None
-   """
+    :param resultado_df: DataFrame que contiene los resultados de GridSearchCV.
+    :type resultado_df: pandas DataFrame
+    :returns: None
+    """
     sns.lineplot(data=resultado_df, x="params_str", y="mean_test_score", marker="o")
     plt.tick_params(axis="x", labelrotation=90)
 
 
 def analizar_resultados_grid_cv(diccionario_resultados):
     """
-    Toma un diccionario de resultados de GridSearchCV, resume los resultados y los grafica en un 
+    Toma un diccionario de resultados de GridSearchCV, resume los resultados y los grafica en un
     gráfico de líneas.
 
-   :param diccionario_resultados: Diccionario de resultados devuelto por el atributo `cv_results_`
-   de GridSearchCV.
-   :type diccionario_resultados: dictionary
-   :returns: pandas DataFrame
-   """
+    :param diccionario_resultados: Diccionario de resultados devuelto por el atributo `cv_results_`
+    de GridSearchCV.
+    :type diccionario_resultados: dictionary
+    :returns: pandas DataFrame
+    """
     df_resultados = resumir_resultados_grid_cv(diccionario_resultados)
     graficar_resultados_grid_cv(df_resultados)
 
@@ -78,14 +78,14 @@ def obtener_desempeno_modelo_en_grilla(modelo_grilla, X_test, y_test):
     """
     Muestra el desempeño de un modelo entrenado con GridSearchCV en un conjunto de prueba.
 
-   :param modelo_grilla: Modelo entrenado con GridSearchCV.
-   :type modelo_grilla: GridSearchCV object
-   :param X_test: Características del conjunto de prueba.
-   :type X_test: array-like, shape (n_samples, n_features)
-   :param y_test: Etiquetas del conjunto de prueba.
-   :type y_test: array-like, shape (n_samples,)
-   :returns: pandas DataFrame
-   """
+    :param modelo_grilla: Modelo entrenado con GridSearchCV.
+    :type modelo_grilla: GridSearchCV object
+    :param X_test: Características del conjunto de prueba.
+    :type X_test: array-like, shape (n_samples, n_features)
+    :param y_test: Etiquetas del conjunto de prueba.
+    :type y_test: array-like, shape (n_samples,)
+    :returns: pandas DataFrame
+    """
     print("--------------Resultados Conjunto de Entrenamiento-----------------")
     print("Los resultados en la busqueda de hiperparametros son:")
     resultados_grilla = analizar_resultados_grid_cv(modelo_grilla.cv_results_)
@@ -107,17 +107,19 @@ def preprocesar_dataset_cancer_mama(df):
     """
     Preprocesa un dataset de cáncer de mama.
 
-   :param df: El dataset a preprocesar.
-   :type df: pandas DataFrame
-   :returns: pandas DataFrame
-   
-   """
+    :param df: El dataset a preprocesar.
+    :type df: pandas DataFrame
+    :returns: pandas DataFrame
+
+    """
+
+    # Paso 1: Crear una copia del dataframe original
     tmp = df.copy()
 
-    # Elimina columnas redundantes o sin mayor informacion
+    # Paso 2: Eliminar columnas redundantes o sin mayor información
     tmp = tmp.drop(columns=["CATEGORIA", "SUBCATEGORIA", "CODIGO_COMUNA", "ID_CASO"])
 
-    # Binariza la edad
+    # Paso 3: Categorizar la edad en rangos etarios
     tmp["RANGO_ETARIO"] = pd.cut(
         tmp["EDAD"],
         [-np.inf, 5, 11, 18, 26, 60, np.inf],
@@ -125,15 +127,15 @@ def preprocesar_dataset_cancer_mama(df):
     )
     tmp = tmp.drop(columns=["EDAD"])
 
-    # Solamente deja las filas que tengan al menos 1 examen
+    # Paso 4: Filtrar filas con al menos 1 examen
     columnas_examenes = ["CT", "CN", "CM", "PT", "PN", "PM"]
     tmp = tmp.dropna(subset=columnas_examenes, how="all")
 
-    # Elimina las fechas
+    # Paso 5: Eliminar columnas de fechas
     columnas_fechas = ["FECHA_DIAGNOSTICO", "FECHA_DEFUNCION", "FECHA_INICIO_TTO", "FECHA_FIN_TTO"]
     tmp = tmp.drop(columns=columnas_fechas)
 
-    # Crea el vector objetivo
+    # Paso 6: Crear el vector objetivo "STATUS" a partir de la columna "ESTADIO"
     reemplazar_estadio = {
         "0": 1,
         "I": 1,
@@ -145,10 +147,10 @@ def preprocesar_dataset_cancer_mama(df):
     tmp["STATUS"] = tmp["ESTADIO"].replace(reemplazar_estadio)
     tmp = tmp.drop(columns=["ESTADIO"])
 
-    # Rellena todas las cols que carezcan de datos
+    # Paso 7: Rellenar valores faltantes con "SO" (Sin Observacion)
     tmp = tmp.fillna("SO")
 
-    # Convierte todas las columnas a variables indicadores
+    # Paso 8: Convertir todas las columnas a variables indicadoras (one-hot encoding)
     tmp = pd.get_dummies(tmp, drop_first=True)
 
     return tmp
