@@ -165,6 +165,6 @@ def preprocesar_dataset_cancer_mama(df):
     tmp = tmp.fillna("SO")
 
     # Paso 8: Convertir todas las columnas a variables indicadoras (one-hot encoding)
-    tmp = pd.get_dummies(tmp, drop_first=True)
+    # tmp = pd.get_dummies(tmp, drop_first=True)
 
     return tmp
