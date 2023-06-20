@@ -132,6 +132,7 @@ def graficar_resultados_grid_cv(resultado_df):
     """
     sns.lineplot(data=resultado_df, x="params_str", y="mean_test_score", marker="o")
     plt.tick_params(axis="x", labelrotation=90)
+    plt.show()
 
 
 def analizar_resultados_grid_cv(diccionario_resultados):
