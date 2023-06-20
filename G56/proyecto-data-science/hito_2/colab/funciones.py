@@ -1,24 +1,23 @@
-import pandas as pd
-import numpy as np
-
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import seaborn as sns
-
-from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
 
 sns.set_style()
 plt.rcParams["figure.figsize"] = (12, 6)
+
 
 # Función para obtener la información de valor del atributo
 def calculate_iv(df, target):
     """
     Calculate the information value (IV) of a feature in a dataset.
-    
+
     Parameters:
     df (pandas.DataFrame): the dataset
     target (str): the name of the target variable to calculate IV for
-    
+
     Returns:
     float: the information value (IV) of the feature
     """
@@ -27,72 +26,74 @@ def calculate_iv(df, target):
 
     # Revisión del target y sus valores en 1 y 0
     for i in range(len(df[target].value_counts())):
-      if df[target].dtypes != 'int64':
-        valores.append(df[target].value_counts('%')[i])
-        diferencia.append(1 - df[target].value_counts('%')[i])
-        item.append(df[target].unique()[i])
+        if df[target].dtypes != "int64":
+            valores.append(df[target].value_counts("%")[i])
+            diferencia.append(1 - df[target].value_counts("%")[i])
+            item.append(df[target].unique()[i])
 
-        # Crear lista y posterior DataFrame para manipular la data
-        lista = {'1': valores, '0':diferencia, target:item}
-        df_values = pd.DataFrame(lista)
+            # Crear lista y posterior DataFrame para manipular la data
+            lista = {"1": valores, "0": diferencia, target: item}
+            df_values = pd.DataFrame(lista)
 
-        # Obtener los valores de la división y el log por separado y almacenarlos 
-        df_values['DIVISION'] = (df_values['1']/df_values['0'])
-        df_values['LOG'] = df_values['DIVISION'].map(lambda x: log(x))
+            # Obtener los valores de la división y el log por separado y almacenarlos
+            df_values["DIVISION"] = df_values["1"] / df_values["0"]
+            df_values["LOG"] = df_values["DIVISION"].map(lambda x: log(x))
 
-        #Obtener valores de cada atributo
-        df_values['VALUE'] = (df_values['1'] - df_values['0']) * df_values['LOG']
+            # Obtener valores de cada atributo
+            df_values["VALUE"] = (df_values["1"] - df_values["0"]) * df_values["LOG"]
 
-        # Obtener IV
-        iv = df_values['VALUE'].sum()  
-      else:
-        iv = 0
+            # Obtener IV
+            iv = df_values["VALUE"].sum()
+        else:
+            iv = 0
 
     return iv
-  
+
+
 # Función para la categorización del valor
 def categorize_iv(iv):
     """
     Categorize the information value (IV) of a feature based on commonly used cut-off values.
-    
+
     Parameters:
     iv (float): the information value (IV) of a feature
-    
+
     Returns:
     str: the category of the IV value (e.g., 'weak', 'moderate', 'strong')
     """
     if iv < 0.02:
-        return 'not useful'
+        return "not useful"
     elif iv < 0.1:
-        return 'weak'
+        return "weak"
     elif iv < 0.3:
-        return 'moderate'
+        return "moderate"
     elif iv < 0.5:
-        return 'strong'
+        return "strong"
     else:
-        return 'suspicious'
+        return "suspicious"
+
 
 # Función para entrenar modelos
 def entrenar_ensamble_de_modelos_gridcv(
     grilla_gridcv_con_modelos, X_train, X_test, y_train, y_test
 ):
     """
-    Entrena un conjunto de modelos utilizando GridSearchCV y muestra los resultados de desempeño en
-    un conjunto de prueba.
+     Entrena un conjunto de modelos utilizando GridSearchCV y muestra los resultados de desempeño en
+     un conjunto de prueba.
 
-   :param grilla_gridcv_con_modelos: Una lista que contiene información sobre los modelos, 
-   parámetros de búsqueda y nombre del modelo.
-   :type grilla_gridcv_con_modelos: list of dictionaries
-   :param X_train: Variables independientes del conjunto de entrenamiento.
-   :type X_train: array-like
-   :param X_test: Variables independientes del conjunto de prueba.
-   :type X_test: array-like
-   :param y_train: Variable dependiente del conjunto de entrenamiento.
-   :type y_train: array-like
-   :param y_test: Variable dependiente del conjunto de prueba.
-   :type y_test: array-like
+    :param grilla_gridcv_con_modelos: Una lista que contiene información sobre los modelos,
+    parámetros de búsqueda y nombre del modelo.
+    :type grilla_gridcv_con_modelos: list of dictionaries
+    :param X_train: Variables independientes del conjunto de entrenamiento.
+    :type X_train: array-like
+    :param X_test: Variables independientes del conjunto de prueba.
+    :type X_test: array-like
+    :param y_train: Variable dependiente del conjunto de entrenamiento.
+    :type y_train: array-like
+    :param y_test: Variable dependiente del conjunto de prueba.
+    :type y_test: array-like
 
-   :returns: None
+    :returns: None
     """
     for model_info in grilla_gridcv_con_modelos:
         print("Training", model_info["nombre"], "...")
@@ -213,8 +214,8 @@ def preprocesar_dataset_cancer_mama(df):
     for columna in columnas_fechas:
         tmp[columna] = pd.to_datetime(tmp[columna], yearfirst=True)
 
-    tmp["DIAS_TTO"] = (tmp['FECHA_FIN_TTO'] - tmp['FECHA_INICIO_TTO']).dt.days
-    tmp["PROYECCION_DIAS"] = (tmp['FECHA_DEFUNCION'] - tmp['FECHA_DIAGNOSTICO']).dt.days
+    tmp["DIAS_TTO"] = (tmp["FECHA_FIN_TTO"] - tmp["FECHA_INICIO_TTO"]).dt.days
+    tmp["PROYECCION_DIAS"] = (tmp["FECHA_DEFUNCION"] - tmp["FECHA_DIAGNOSTICO"]).dt.days
 
     tmp = tmp.drop(columns=columnas_fechas)
 
@@ -238,27 +239,27 @@ def preprocesar_dataset_cancer_mama(df):
 
     return tmp
 
-    
+
 # Función para gráficos para ver distribución de c/variable
 def plot_variables(df):
-    num_cols = df.select_dtypes(include=['float', 'int']).columns
-    cat_cols = df.select_dtypes(include=['object']).columns
+    num_cols = df.select_dtypes(include=["float", "int"]).columns
+    cat_cols = df.select_dtypes(include=["object"]).columns
 
     # Paleta de colores asociada al cáncer de mamas
-    breast_cancer_palette = ['#D61A46', '#00AEEF', '#8A7967', '#7B1FA2', '#FF7F00', '#70AD47']
+    breast_cancer_palette = ["#D61A46", "#00AEEF", "#8A7967", "#7B1FA2", "#FF7F00", "#70AD47"]
     sns.set_palette(breast_cancer_palette)
 
     # Gráficos para variables numéricas
     for col in num_cols:
         plt.figure(figsize=(8, 6))
         sns.histplot(data=df, x=col, kde=True)
-        plt.title(f'Distribución de {col}')
+        plt.title(f"Distribución de {col}")
         plt.show()
 
     # Gráficos para variables categóricas
     for col in cat_cols:
         plt.figure(figsize=(8, 6))
         sns.countplot(data=df, x=col)
-        plt.title(f'Distribución de {col}')
+        plt.title(f"Distribución de {col}")
         plt.xticks(rotation=45)
         plt.show()
