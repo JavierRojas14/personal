@@ -5,9 +5,6 @@ import seaborn as sns
 from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV
 
-sns.set_style()
-plt.rcParams["figure.figsize"] = (12, 6)
-
 
 # Función para obtener la información de valor del atributo
 def calculate_iv(df, target):
@@ -133,7 +130,6 @@ def graficar_resultados_grid_cv(resultado_df):
     """
     sns.lineplot(data=resultado_df, x="params_str", y="mean_test_score", marker="o")
     plt.tick_params(axis="x", labelrotation=90)
-    plt.show()
 
 
 def analizar_resultados_grid_cv(diccionario_resultados):
