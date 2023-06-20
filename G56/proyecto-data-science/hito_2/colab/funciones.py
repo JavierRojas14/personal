@@ -209,6 +209,12 @@ def preprocesar_dataset_cancer_mama(df):
 
     # Paso 5: Eliminar columnas de fechas
     columnas_fechas = ["FECHA_DIAGNOSTICO", "FECHA_DEFUNCION", "FECHA_INICIO_TTO", "FECHA_FIN_TTO"]
+    for columna in columnas_fechas:
+        tmp[columna] = pd.to_datetime(tmp[columna], yearfirst=True)
+
+    tmp["DIAS_TTO"] = (tmp['FECHA_FIN_TTO'] - tmp['FECHA_INICIO_TTO']).dt.days
+    tmp["PROYECCION_DIAS"] = (tmp['FECHA_DEFUNCION'] - tmp['FECHA_DIAGNOSTICO']).dt.days
+
     tmp = tmp.drop(columns=columnas_fechas)
 
     # Paso 6: Crear el vector objetivo "STATUS" a partir de la columna "ESTADIO"
