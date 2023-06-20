@@ -259,3 +259,29 @@ def plot_variables(df):
         plt.title(f"Distribución de {col}")
         plt.xticks(rotation=45)
         plt.show()
+
+
+def grafico_VPYT(mama):
+    variables_PYT = ["CT", "CN", "CM", "PT", "PN", "PM"]
+    num_variables = len(variables_PYT)
+    num_filas = 2
+    num_columnas = 3
+
+    fig, axes = plt.subplots(num_filas, num_columnas, figsize=(10, 6))
+
+    for i, variable in enumerate(variables_PYT):
+        fila = i // num_columnas
+        columna = i % num_columnas
+
+        # Cuenta la frecuencia de cada categoría, incluyendo los valores perdidos
+        frecuencia = mama[variable].value_counts(dropna=False)
+
+        # Crea el gráfico de torta en el subgráfico correspondiente
+        axes[fila, columna].pie(frecuencia.values, labels=frecuencia.index, autopct="%1.1f%%")
+        axes[fila, columna].set_title(f"Distribución de {variable}")
+
+    # Ajusta los espacios entre subgráficos
+    plt.tight_layout()
+
+    # Muestra los gráficos
+    plt.show()
