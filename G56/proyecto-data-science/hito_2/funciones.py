@@ -180,8 +180,8 @@ def obtener_desempeno_modelo_en_grilla(modelo_grilla, X_test, y_test):
 
 def obtener_desempeno_variables(modelo_entrenado):
     try:
-        importancias = modelo_entrenado["modelo"].best_estimator_.feature_importances_
-        features = modelo_entrenado["modelo"].best_estimator_.feature_names_in_
+        importancias = modelo_entrenado.feature_importances_
+        features = modelo_entrenado.feature_names_in_
         resumen = pd.DataFrame({"vars": features, "importancia": importancias}).sort_values(
             "importancia", ascending=False
         )
