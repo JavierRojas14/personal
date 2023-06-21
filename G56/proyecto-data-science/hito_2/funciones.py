@@ -228,10 +228,12 @@ def preprocesar_dataset_cancer_mama(df):
     tmp = tmp.drop(columns=["ESTADIO"])
 
     # Paso 7: Rellenar valores faltantes con "SO" (Sin Observacion)
-    tmp = tmp.fillna("SO")
+    tmp = tmp.fillna("NO DEFINIDO")
 
-    # Paso 8: Convertir todas las columnas a variables indicadoras (one-hot encoding)
-    # tmp = pd.get_dummies(tmp, drop_first=True)
+    # Paso 8: Eliminar registros duplicados y contar la cantidad de terapias
+    # pacientes_unicos = tmp.drop(columns="TTO_FALP_SUBCATEGORIA").drop_duplicates()
+    # conteo_terapias = pd.crosstab(tmp["ID_CASO"], tmp["TTO_FALP_SUBCATEGORIA"])
+    # tmp = pd.merge(pacientes_unicos, conteo_terapias, how="inner", on="ID_CASO")
 
     return tmp
 
