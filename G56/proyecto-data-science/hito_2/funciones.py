@@ -231,9 +231,11 @@ def preprocesar_dataset_cancer_mama(df):
     tmp = tmp.fillna("NO DEFINIDO")
 
     # Paso 8: Eliminar registros duplicados y contar la cantidad de terapias
-    # pacientes_unicos = tmp.drop(columns="TTO_FALP_SUBCATEGORIA").drop_duplicates()
-    # conteo_terapias = pd.crosstab(tmp["ID_CASO"], tmp["TTO_FALP_SUBCATEGORIA"])
-    # tmp = pd.merge(pacientes_unicos, conteo_terapias, how="inner", on="ID_CASO")
+    pacientes_unicos = tmp.drop(columns="TTO_FALP_SUBCATEGORIA").drop_duplicates()
+    conteo_terapias = pd.crosstab(tmp["ID_CASO"], tmp["TTO_FALP_SUBCATEGORIA"]).add_prefix(
+        "TTO_FALP_SUBCATEGORIA_"
+    )
+    tmp = pd.merge(pacientes_unicos, conteo_terapias, how="inner", on="ID_CASO")
 
     return tmp
 
