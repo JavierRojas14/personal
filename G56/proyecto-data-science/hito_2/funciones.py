@@ -178,6 +178,20 @@ def obtener_desempeno_modelo_en_grilla(modelo_grilla, X_test, y_test):
     return resultados_grilla
 
 
+def obtener_desempeno_variables(modelo_entrenado):
+    try:
+        importancias = modelo_entrenado["modelo"].best_estimator_.feature_importances_
+        features = modelo_entrenado["modelo"].best_estimator_.feature_names_in_
+        resumen = pd.DataFrame({"vars": features, "importancia": importancias}).sort_values(
+            "importancia", ascending=False
+        )
+
+        return resumen
+
+    except AttributeError:
+        print("El modelo carece de features_importances_")
+
+
 def preprocesar_dataset_cancer_mama(df):
     """
     Preprocesa un dataset de cáncer de mama.
@@ -251,7 +265,7 @@ def obtener_vars_indicadoras(df, encoder=None):
     if not encoder:
         encoder = OneHotEncoder(drop="first", sparse=False, handle_unknown="ignore")
         encoder.fit(cols_categoricas)
-    
+
     cols_categoricas_dummies = encoder.transform(cols_categoricas)
     df_cols_categoricas_dummies = pd.DataFrame(
         cols_categoricas_dummies, columns=encoder.get_feature_names_out()
