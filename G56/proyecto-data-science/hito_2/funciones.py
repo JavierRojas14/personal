@@ -237,6 +237,9 @@ def preprocesar_dataset_cancer_mama(df):
     )
     tmp = pd.merge(pacientes_unicos, conteo_terapias, how="inner", on="ID_CASO")
 
+    # Paso 9: Elimina ID_CASO
+    tmp = tmp.drop(columns="ID_CASO")
+
     return tmp
 
 
