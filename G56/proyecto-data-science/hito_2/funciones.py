@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import OneHotEncoder
 
 
 # Función para obtener la información de valor del atributo
@@ -241,6 +242,24 @@ def preprocesar_dataset_cancer_mama(df):
     tmp = tmp.drop(columns="ID_CASO")
 
     return tmp
+
+
+def obtener_vars_indicadoras(df, encoder=None):
+    cols_categoricas = df.select_dtypes(exclude="number")
+    cols_numericas = df.select_dtypes(include="number")
+
+    if not encoder:
+        encoder = OneHotEncoder(drop="first", sparse=False, handle_unknown="ignore")
+        encoder.fit(cols_categoricas)
+    
+    cols_categoricas_dummies = encoder.transform(cols_categoricas)
+    df_cols_categoricas_dummies = pd.DataFrame(
+        cols_categoricas_dummies, columns=encoder.get_feature_names_out()
+    )
+
+    matriz_final = pd.concat([cols_numericas, df_cols_categoricas_dummies], axis=1)
+
+    return matriz_final, encoder
 
 
 # Función para gráficos para ver distribución de c/variable
