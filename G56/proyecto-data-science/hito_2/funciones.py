@@ -193,6 +193,10 @@ def obtener_desempeno_variables(modelo_entrenado):
     return resumen
 
 
+def convertir_a_probabilidad(x):
+    return (np.exp(abs(x))) / (1 + np.exp(abs(x)))
+
+
 def preprocesar_dataset_cancer_mama(df):
     """
     Preprocesa un dataset de cáncer de mama.
