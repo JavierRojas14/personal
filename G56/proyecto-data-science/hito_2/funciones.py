@@ -281,10 +281,6 @@ def plot_variables(df):
     num_cols = df.select_dtypes(include=["float", "int"]).columns
     cat_cols = df.select_dtypes(include=["object"]).columns
 
-    # Paleta de colores asociada al cáncer de mamas
-    breast_cancer_palette = ["#D61A46", "#00AEEF", "#8A7967", "#7B1FA2", "#FF7F00", "#70AD47"]
-    sns.set_palette(breast_cancer_palette)
-
     # Gráficos para variables numéricas
     for col in num_cols:
         plt.figure(figsize=(8, 6))
