@@ -181,15 +181,16 @@ def obtener_desempeno_modelo_en_grilla(modelo_grilla, X_test, y_test):
 def obtener_desempeno_variables(modelo_entrenado):
     try:
         importancias = modelo_entrenado.feature_importances_
-        features = modelo_entrenado.feature_names_in_
-        resumen = pd.DataFrame({"vars": features, "importancia": importancias}).sort_values(
-            "importancia", ascending=False
-        )
-
-        return resumen
 
     except AttributeError:
-        print("El modelo carece de features_importances_")
+        importancias = modelo_entrenado.coef_[0]
+
+    features = modelo_entrenado.feature_names_in_
+    resumen = pd.DataFrame({"vars": features, "importancia": importancias}).sort_values(
+        "importancia", ascending=False
+    )
+
+    return resumen
 
 
 def preprocesar_dataset_cancer_mama(df):
