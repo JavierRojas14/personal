@@ -286,20 +286,37 @@ def plot_variables(df):
     num_cols = df.select_dtypes(include=["float", "int"]).columns
     cat_cols = df.select_dtypes(include=["object"]).columns
 
-    # Gráficos para variables numéricas
+    # sns.set(font_scale=0.6)  # Decrease font scale for all text elements
+
+    num_plots = len(num_cols) + len(cat_cols)
+    rows = (num_plots + 2) // 3
+    cols = 3
+    fig, axes = plt.subplots(rows, cols, figsize=(15, rows*5))
+    fig.tight_layout(pad=4.0, h_pad=8)  # Increase vertical spacing between plots
+
+    plot_index = 0
+
     for col in num_cols:
-        plt.figure(figsize=(8, 6))
+        ax = axes[plot_index // cols, plot_index % cols]
+        plt.sca(ax)
         sns.histplot(data=df, x=col, kde=True)
         plt.title(f"Distribución de {col}")
-        plt.show()
+        plot_index += 1
 
-    # Gráficos para variables categóricas
     for col in cat_cols:
-        plt.figure(figsize=(8, 6))
+        ax = axes[plot_index // cols, plot_index % cols]
+        plt.sca(ax)
         sns.countplot(data=df, x=col)
         plt.title(f"Distribución de {col}")
         plt.xticks(rotation=45)
-        plt.show()
+        plot_index += 1
+
+    # Hide empty subplots if any
+    if num_plots % cols != 0:
+        for i in range(plot_index, rows * cols):
+            axes[i // cols, i % cols].axis('off')
+
+    plt.show()
 
 
 def grafico_VPYT(mama):
