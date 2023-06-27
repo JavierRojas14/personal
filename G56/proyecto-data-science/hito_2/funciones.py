@@ -7,70 +7,6 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import OneHotEncoder
 
 
-# Función para obtener la información de valor del atributo
-def calculate_iv(df, target):
-    """
-    Calculate the information value (IV) of a feature in a dataset.
-
-    Parameters:
-    df (pandas.DataFrame): the dataset
-    target (str): the name of the target variable to calculate IV for
-
-    Returns:
-    float: the information value (IV) of the feature
-    """
-    valores, item, diferencia = [], [], []
-    lista = {}
-
-    # Revisión del target y sus valores en 1 y 0
-    for i in range(len(df[target].value_counts())):
-        if df[target].dtypes != "int64":
-            valores.append(df[target].value_counts("%")[i])
-            diferencia.append(1 - df[target].value_counts("%")[i])
-            item.append(df[target].unique()[i])
-
-            # Crear lista y posterior DataFrame para manipular la data
-            lista = {"1": valores, "0": diferencia, target: item}
-            df_values = pd.DataFrame(lista)
-
-            # Obtener los valores de la división y el log por separado y almacenarlos
-            df_values["DIVISION"] = df_values["1"] / df_values["0"]
-            df_values["LOG"] = df_values["DIVISION"].map(lambda x: log(x))
-
-            # Obtener valores de cada atributo
-            df_values["VALUE"] = (df_values["1"] - df_values["0"]) * df_values["LOG"]
-
-            # Obtener IV
-            iv = df_values["VALUE"].sum()
-        else:
-            iv = 0
-
-    return iv
-
-
-# Función para la categorización del valor
-def categorize_iv(iv):
-    """
-    Categorize the information value (IV) of a feature based on commonly used cut-off values.
-
-    Parameters:
-    iv (float): the information value (IV) of a feature
-
-    Returns:
-    str: the category of the IV value (e.g., 'weak', 'moderate', 'strong')
-    """
-    if iv < 0.02:
-        return "not useful"
-    elif iv < 0.1:
-        return "weak"
-    elif iv < 0.3:
-        return "moderate"
-    elif iv < 0.5:
-        return "strong"
-    else:
-        return "suspicious"
-
-
 # Función para entrenar modelos
 def entrenar_ensamble_de_modelos_gridcv(
     grilla_gridcv_con_modelos, X_train, X_test, y_train, y_test
@@ -291,7 +227,7 @@ def plot_variables(df):
     num_plots = len(num_cols) + len(cat_cols)
     rows = (num_plots + 2) // 3
     cols = 3
-    fig, axes = plt.subplots(rows, cols, figsize=(15, rows*5))
+    fig, axes = plt.subplots(rows, cols, figsize=(15, rows * 5))
     fig.tight_layout(pad=4.0, h_pad=8)  # Increase vertical spacing between plots
 
     plot_index = 0
@@ -314,7 +250,7 @@ def plot_variables(df):
     # Hide empty subplots if any
     if num_plots % cols != 0:
         for i in range(plot_index, rows * cols):
-            axes[i // cols, i % cols].axis('off')
+            axes[i // cols, i % cols].axis("off")
 
     plt.show()
 
