@@ -257,11 +257,10 @@ def plot_variables(df):
 
 def grafico_VPYT(mama):
     variables_PYT = ["CT", "CN", "CM", "PT", "PN", "PM"]
-    num_variables = len(variables_PYT)
     num_filas = 2
     num_columnas = 3
 
-    fig, axes = plt.subplots(num_filas, num_columnas, figsize=(10, 6))
+    _, axes = plt.subplots(num_filas, num_columnas, figsize=(10, 6))
 
     for i, variable in enumerate(variables_PYT):
         fila = i // num_columnas
