@@ -173,11 +173,11 @@ def preprocesar_dataset_cancer_mama(df):
 
     # Paso 6: Crear el vector objetivo "STATUS" a partir de la columna "ESTADIO"
     reemplazar_estadio = {
-        "0": 1,
-        "I": 1,
-        "II": 2,
-        "III": 3,
-        "IV": 3,
+        "0": 0,
+        "I": 0,
+        "II": 1,
+        "III": 2,
+        "IV": 2,
     }
 
     tmp["STATUS"] = tmp["ESTADIO"].replace(reemplazar_estadio)
